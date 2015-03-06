@@ -19,6 +19,7 @@ package com.jd.bdp.hydra.mysql.persistent.service.impl;
 import com.jd.bdp.hydra.mysql.persistent.dao.SeedMapper;
 import com.jd.bdp.hydra.mysql.persistent.entity.SeedData;
 import com.jd.bdp.hydra.mysql.persistent.service.SeedService;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,6 +33,7 @@ public class SeedServiceImpl implements SeedService {
     private static final Logger log = LoggerFactory.getLogger(SeedServiceImpl.class);
 
     private static Integer MAX_STEP = 0xffff;
+    private SeedMapper seedMapper;
 
     /**
      * 派发一个seed字串
@@ -56,8 +58,8 @@ public class SeedServiceImpl implements SeedService {
             }
         } catch (Exception e) {
             log.error("seed persistent into the database occur error,will use default seed");
-            result=0L;
-            throw new RuntimeException("get seed accur error",e.getCause());
+            result = 0L;
+            throw new RuntimeException("get seed accur error", e.getCause());
         } finally {
             if (result != null && result >= MAX_STEP) {
                 log.error("seed has bean used over! please insure the stability of the system~");
@@ -66,16 +68,13 @@ public class SeedServiceImpl implements SeedService {
             return result;
         }
 
-
-    }
-
-    private SeedMapper seedMapper;
-
-    public void setSeedMapper(SeedMapper seedMapper) {
-        this.seedMapper = seedMapper;
     }
 
     public SeedMapper getSeedMapper() {
         return seedMapper;
+    }
+
+    public void setSeedMapper(SeedMapper seedMapper) {
+        this.seedMapper = seedMapper;
     }
 }

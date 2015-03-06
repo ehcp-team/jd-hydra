@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>hydra</artifactId>
@@ -50,24 +50,24 @@
         <plugins>
             <!--to package jar with only *.java files-->
             <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-jar-plugin</artifactId>
-            <executions>
-                <execution>
-                    <id>package-only-java-resources</id>
-                    <goals>
-                        <goal>jar</goal>
-                    </goals>
-                    <phase>package</phase>
-                    <configuration>
-                        <includes>
-                            <include>**/*.class</include>
-                        </includes>
-                        <classifier>assemble</classifier>
-                    </configuration>
-                </execution>
-            </executions>
-        </plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>package-only-java-resources</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                        <phase>package</phase>
+                        <configuration>
+                            <includes>
+                                <include>**/*.class</include>
+                            </includes>
+                            <classifier>assemble</classifier>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 </project>

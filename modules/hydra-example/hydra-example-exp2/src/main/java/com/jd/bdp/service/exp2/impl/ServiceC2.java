@@ -27,25 +27,24 @@ import com.jd.bdp.service.exp2.inter.InterfaceD2;
  */
 public class ServiceC2 implements InterfaceC2 {
 
+    private InterfaceD1 serviceD1;
+    private InterfaceD2 serviceD2;
+
     @Override
     public Object functionC2(Object... objects) {
         String myVoice = new String("C2");
         String returnVoice = myVoice.toString();
-        if(serviceD1!=null){
-            Object result=serviceD1.functionD1(objects,myVoice);
+        if (serviceD1 != null) {
+            Object result = serviceD1.functionD1(objects, myVoice);
             returnVoice = returnVoice + "" + result.toString();
         }
-        if(serviceD2!=null){
-            Object result=serviceD2.functionD2(objects,myVoice);
+        if (serviceD2 != null) {
+            Object result = serviceD2.functionD2(objects, myVoice);
             returnVoice = returnVoice + "," + result.toString();
         }
         returnVoice = "(" + returnVoice + ")";
         return returnVoice;
     }
-
-
-    private InterfaceD1 serviceD1;
-    private InterfaceD2 serviceD2;
 
     public void setServiceD1(InterfaceD1 serviceD1) {
         this.serviceD1 = serviceD1;

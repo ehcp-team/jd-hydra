@@ -16,7 +16,6 @@
 
 package com.jd.bdp.hydra.mysql.persistent.dao;
 
-
 import com.jd.bdp.hydra.mysql.persistent.entity.SeedData;
 
 /**

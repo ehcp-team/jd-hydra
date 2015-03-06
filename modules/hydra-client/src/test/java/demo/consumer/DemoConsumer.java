@@ -15,10 +15,11 @@
  */
 package demo.consumer;
 
-import demo.DemoService;
+import java.util.Random;
+
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import java.util.Random;
+import demo.DemoService;
 
 public class DemoConsumer {
 
@@ -26,10 +27,8 @@ public class DemoConsumer {
 
         try {
 
-            ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[]{
-                    "dubbo-demo-consumer.xml",
-                    "/hydra-config.xml"
-            });
+            ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(
+                    new String[] { "dubbo-demo-consumer.xml", "/hydra-config.xml" });
             context.start();
             DemoService service = (DemoService) context.getBean("demoService"); // 获取远程服务代理
 

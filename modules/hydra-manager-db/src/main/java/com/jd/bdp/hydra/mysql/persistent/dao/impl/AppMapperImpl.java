@@ -18,9 +18,10 @@ package com.jd.bdp.hydra.mysql.persistent.dao.impl;
 
 import com.jd.bdp.hydra.mysql.persistent.dao.AppMapper;
 import com.jd.bdp.hydra.mysql.persistent.entity.AppPara;
-import org.mybatis.spring.SqlSessionTemplate;
 
 import java.util.List;
+
+import org.mybatis.spring.SqlSessionTemplate;
 
 /**
  * User: xiangkui
@@ -62,7 +63,7 @@ public class AppMapperImpl implements AppMapper {
 
     @Override
     public List<AppPara> getAll() {
-        return (List<AppPara>)sqlSession.selectList("getAppAll");
+        return (List<AppPara>) sqlSession.selectList("getAppAll");
     }
 
     public void setSqlSession(SqlSessionTemplate sqlSession) {

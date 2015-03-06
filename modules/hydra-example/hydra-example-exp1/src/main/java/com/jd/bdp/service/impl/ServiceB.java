@@ -1,6 +1,5 @@
 package com.jd.bdp.service.impl;
 
-
 import com.jd.bdp.service.impl.support.AbstractService;
 import com.jd.bdp.service.inter.InterfaceB;
 import com.jd.bdp.service.inter.InterfaceC;
@@ -11,19 +10,17 @@ import com.jd.bdp.service.inter.InterfaceC;
  * Time: 下午2:34
  */
 public class ServiceB extends AbstractService implements InterfaceB {
+    static int mySwitch = 1;
+
     /**
      * 绑定一个配置文件 ，用于启动服务
      *
      * @return
      */
     protected String[] getConfigLocations() {
-        String[] location = {
-                "classpath*:dubbo-service-B.xml"
-        };
+        String[] location = { "classpath*:dubbo-service-B.xml" };
         return location;
     }
-
-    static int mySwitch = 1;
 
     /*服务调用*/
     @Override
@@ -36,6 +33,6 @@ public class ServiceB extends AbstractService implements InterfaceB {
             }
             mySwitch = -mySwitch;
         }
-        return myVoice + (result==""?"":"------------>" + result);
+        return myVoice + (result == "" ? "" : "------------>" + result);
     }
 }

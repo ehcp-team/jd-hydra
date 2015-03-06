@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xmlns="http://www.springframework.org/schema/beans"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 	http://code.alibabatech.com/schema/dubbo
@@ -10,7 +10,7 @@
     <bean id="serviceE" class="com.jd.bdp.service.exp2.impl.ServiceE">
     </bean>
     <!--服务暴露-开机-->
-    <dubbo:protocol name="${All.protocol}" port="${E.port}" />
-    <dubbo:service interface="com.jd.bdp.service.exp2.inter.InterfaceE" ref="serviceE" >
+    <dubbo:protocol name="${All.protocol}" port="${E.port}"/>
+    <dubbo:service interface="com.jd.bdp.service.exp2.inter.InterfaceE" ref="serviceE">
     </dubbo:service>
 </beans>

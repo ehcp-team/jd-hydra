@@ -16,9 +16,9 @@
 
 package dao;
 
-
 import com.jd.bdp.hydra.mysql.persistent.dao.SeedMapper;
 import com.jd.bdp.hydra.mysql.persistent.entity.SeedData;
+
 import org.junit.Test;
 import org.springframework.test.AbstractDependencyInjectionSpringContextTests;
 
@@ -40,7 +40,7 @@ public class SeedMapperTest extends AbstractDependencyInjectionSpringContextTest
 
     @Override
     protected String[] getConfigLocations() {
-        String[] location = {"classpath:/hydra-manager-db.xml"};
+        String[] location = { "classpath:/hydra-manager-db.xml" };
         return location;
     }
 

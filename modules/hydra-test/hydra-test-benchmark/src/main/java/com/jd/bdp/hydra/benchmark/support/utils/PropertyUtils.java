@@ -1,8 +1,6 @@
 package com.jd.bdp.hydra.benchmark.support.utils;
 
 import com.jd.bdp.hydra.benchmark.support.common.Constants;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -11,6 +9,9 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.Properties;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * User: xiangkui
@@ -33,7 +34,7 @@ public class PropertyUtils {
                             path = Constants.DEFAULT_BENCHMARK_PROPERTIES;
                         }
                     }
-                    logger.info("user config file is:"+path);
+                    logger.info("user config file is:" + path);
                     PROPERTIES = PropertyUtils.loadProperties(path, false, true);
                 }
             }
@@ -52,7 +53,8 @@ public class PropertyUtils {
                     input.close();
                 }
             } catch (Throwable e) {
-                logger.warn("Failed to load " + fileName + " file from " + fileName + "(ingore this file): " + e.getMessage(), e);
+                logger.warn("Failed to load " + fileName + " file from " + fileName + "(ingore this file): " + e
+                        .getMessage(), e);
             }
             return properties;
         }
@@ -79,8 +81,9 @@ public class PropertyUtils {
 
         if (!allowMultiFile) {
             if (list.size() > 1) {
-                String errMsg = String.format("only 1 %s file is expected, but %d benchmark.properties files found on class path: %s",
-                        fileName, list.size(), list.toString());
+                String errMsg = String
+                        .format("only 1 %s file is expected, but %d benchmark.properties files found on class path: %s",
+                                fileName, list.size(), list.toString());
                 logger.warn(errMsg);
                 // throw new IllegalStateException(errMsg); // see http://code.alibabatech.com/jira/browse/DUBBO-133
             }
@@ -89,7 +92,8 @@ public class PropertyUtils {
             try {
                 properties.load(ClassHelper.getClassLoader().getResourceAsStream(fileName));
             } catch (Throwable e) {
-                logger.warn("Failed to load " + fileName + " file from " + fileName + "(ingore this file): " + e.getMessage(), e);
+                logger.warn("Failed to load " + fileName + " file from " + fileName + "(ingore this file): " + e
+                        .getMessage(), e);
             }
             return properties;
         }
@@ -112,7 +116,8 @@ public class PropertyUtils {
                     }
                 }
             } catch (Throwable e) {
-                logger.warn("Fail to load " + fileName + " file from " + url + "(ingore this file): " + e.getMessage(), e);
+                logger.warn("Fail to load " + fileName + " file from " + url + "(ingore this file): " + e.getMessage(),
+                        e);
             }
         }
 

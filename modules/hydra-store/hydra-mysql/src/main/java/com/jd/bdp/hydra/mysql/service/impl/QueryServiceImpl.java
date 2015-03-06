@@ -1,6 +1,5 @@
 package com.jd.bdp.hydra.mysql.service.impl;
 
-
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -24,13 +23,17 @@ import java.util.Map;
  */
 public class QueryServiceImpl implements QueryService {
 
+    private TraceMapper traceMapper;
+    private SpanMapper spanMapper;
+    private AnnotationMapper annotationMapper;
+
     @Override
     public JSONObject getTraceInfo(Long traceId) {
         try {
             List<Span> spans = spanMapper.findSpanByTraceId(traceId);
             List<Absannotation> annotations = annotationMapper.getAnnotations(spans);
             return assembleTrace(spans, annotations);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
@@ -116,7 +119,6 @@ public class QueryServiceImpl implements QueryService {
         return span.getJSONArray("annotations").size() == 4;
     }
 
-
     public boolean isExceptionAnn(Absannotation annotation) {
         return annotation.getKey().equalsIgnoreCase("dubbo.exception");
     }
@@ -169,10 +171,6 @@ public class QueryServiceImpl implements QueryService {
         return array;
     }
 
-    private TraceMapper traceMapper;
-    private SpanMapper spanMapper;
-    private AnnotationMapper annotationMapper;
-
     public void setTraceMapper(TraceMapper traceMapper) {
         this.traceMapper = traceMapper;
     }
@@ -184,6 +182,5 @@ public class QueryServiceImpl implements QueryService {
     public void setAnnotationMapper(AnnotationMapper annotationMapper) {
         this.annotationMapper = annotationMapper;
     }
-
 
 }

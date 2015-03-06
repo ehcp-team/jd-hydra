@@ -19,11 +19,12 @@ package service;
 import com.jd.bdp.hydra.mysql.persistent.dao.ServiceIdGenMapper;
 import com.jd.bdp.hydra.mysql.persistent.entity.ServiceIdGen;
 import com.jd.bdp.hydra.mysql.persistent.service.ServiceIdGenService;
-import org.junit.Test;
-import org.springframework.test.AbstractDependencyInjectionSpringContextTests;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import org.junit.Test;
+import org.springframework.test.AbstractDependencyInjectionSpringContextTests;
 
 /**
  * User: biandi
@@ -32,8 +33,11 @@ import java.util.Map;
  */
 public class TestServiceIdGenService extends AbstractDependencyInjectionSpringContextTests {
 
+    private ServiceIdGenMapper serviceIdGenMapper;
+    private ServiceIdGenService serviceIdGenService;
+
     @Test
-    public void testGetNewId(){
+    public void testGetNewId() {
         String id1 = serviceIdGenService.getNewServiceId();
         String id2 = serviceIdGenService.getNewServiceId();
         ServiceIdGen serviceIdGen = serviceIdGenMapper.getServiceIdGen();
@@ -42,11 +46,11 @@ public class TestServiceIdGenService extends AbstractDependencyInjectionSpringCo
         String id1Head = String.valueOf(id1).substring(0, headLength);
         String id2Head = String.valueOf(id2).substring(0, headLength);
         //首先比较head是否不同，且在遭遇最大值前自增
-        if (Integer.parseInt(id2Head) > Integer.parseInt(id1Head)){
+        if (Integer.parseInt(id2Head) > Integer.parseInt(id1Head)) {
             assertTrue(true);
-        }else if (Integer.parseInt(id2Head) < Integer.parseInt(id1Head)){
+        } else if (Integer.parseInt(id2Head) < Integer.parseInt(id1Head)) {
             assertEquals(id1Head, serviceIdGen.getMaxHead());
-        }else {
+        } else {
             assertTrue(false);
         }
         //比较之后的几位不同
@@ -55,9 +59,8 @@ public class TestServiceIdGenService extends AbstractDependencyInjectionSpringCo
         assertTrue(trueId2 > trueId1);
     }
 
-
     @Test
-    public void testServiceIdDifferent(){
+    public void testServiceIdDifferent() {
         Map<String, String> map = new HashMap<String, String>();
         new Thread(new TestThread(map, serviceIdGenService)).run();
         new Thread(new TestThread(map, serviceIdGenService)).run();
@@ -65,12 +68,26 @@ public class TestServiceIdGenService extends AbstractDependencyInjectionSpringCo
         assertEquals(150, map.size());
     }
 
-    private class TestThread implements Runnable{
+    @Override
+    protected String[] getConfigLocations() {
+        String[] location = { "classpath:hydra-manager-db.xml" };
+        return location;
+    }
+
+    public void setServiceIdGenService(ServiceIdGenService serviceIdGenService) {
+        this.serviceIdGenService = serviceIdGenService;
+    }
+
+    public void setServiceIdGenMapper(ServiceIdGenMapper serviceIdGenMapper) {
+        this.serviceIdGenMapper = serviceIdGenMapper;
+    }
+
+    private class TestThread implements Runnable {
 
         private Map<String, String> map;
         private ServiceIdGenService serviceIdGenService;
 
-        private TestThread(Map<String, String> map, ServiceIdGenService serviceIdGenService){
+        private TestThread(Map<String, String> map, ServiceIdGenService serviceIdGenService) {
             this.map = map;
             this.serviceIdGenService = serviceIdGenService;
         }
@@ -82,23 +99,5 @@ public class TestServiceIdGenService extends AbstractDependencyInjectionSpringCo
                 map.put(id, id);
             }
         }
-    }
-
-
-    @Override
-    protected String[] getConfigLocations() {
-        String[] location = {"classpath:hydra-manager-db.xml"};
-        return location;
-    }
-
-    private ServiceIdGenMapper serviceIdGenMapper;
-    private ServiceIdGenService serviceIdGenService;
-
-    public void setServiceIdGenService(ServiceIdGenService serviceIdGenService) {
-        this.serviceIdGenService = serviceIdGenService;
-    }
-
-    public void setServiceIdGenMapper(ServiceIdGenMapper serviceIdGenMapper) {
-        this.serviceIdGenMapper = serviceIdGenMapper;
     }
 }

@@ -16,9 +16,10 @@ public class Annotation implements Serializable {
     private Endpoint host;
     private Integer duration;
 
-    public Annotation(){
+    public Annotation() {
 
     }
+
     public Annotation(Long timestamp, String value, Endpoint host) {
         this.timestamp = timestamp;
         this.value = value;
@@ -69,15 +70,21 @@ public class Annotation implements Serializable {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Annotation)) return false;
+        if (this == o)
+            return true;
+        if (!(o instanceof Annotation))
+            return false;
 
         Annotation that = (Annotation) o;
 
-        if (duration!=null&&!duration.equals(that.duration)) return false;
-        if (!host.equals(that.host)) return false;
-        if (!timestamp.equals(that.timestamp)) return false;
-        if (!value.equals(that.value)) return false;
+        if (duration != null && !duration.equals(that.duration))
+            return false;
+        if (!host.equals(that.host))
+            return false;
+        if (!timestamp.equals(that.timestamp))
+            return false;
+        if (!value.equals(that.value))
+            return false;
 
         return true;
     }

@@ -18,30 +18,29 @@ package com.jd.bdp.hydra.hbase.service.impl;
 
 import com.jd.bdp.hydra.Annotation;
 import com.jd.bdp.hydra.Span;
+
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.HBaseConfiguration;
 import org.apache.hadoop.hbase.client.HTablePool;
 
-import java.util.List;
-
 /**
-
  * Date: 13-4-12
  * Time: 下午4:19
  */
 public class HbaseUtils {
-    public static HTablePool POOL;
-    public static Configuration conf = HBaseConfiguration.create(new Configuration());
-
-    //这三个表名由spring注入方便测试
-    protected String duration_index;
-    protected String ann_index;
-    protected String TR_T;
     public static final String duration_index_family_column = "trace";
     public static final String ann_index_family_column = "trace";
     public static final String trace_family_column = "span";
     public static final String DUBBO_EXCEPTION = "dubbo.exception";
+    public static HTablePool POOL;
+    public static Configuration conf = HBaseConfiguration.create(new Configuration());
+    //这三个表名由spring注入方便测试
+    protected String duration_index;
+    protected String ann_index;
+    protected String TR_T;
 
     public HbaseUtils() {
         POOL = new HTablePool(conf, 2);
@@ -86,7 +85,6 @@ public class HbaseUtils {
         return s;
     }
 
-
     byte[] long2ByteArray(Long value) {
         long v = value.longValue();
         byte[] b = new byte[8];
@@ -126,27 +124,27 @@ public class HbaseUtils {
         return null;
     }
 
-    public void setDuration_index(String duration_index) {
-        this.duration_index = duration_index;
-    }
-
-    public void setAnn_index(String ann_index) {
-        this.ann_index = ann_index;
-    }
-
-    public void setTR_T(String TR_T) {
-        this.TR_T = TR_T;
-    }
-
     public String getDuration_index() {
         return duration_index;
+    }
+
+    public void setDuration_index(String duration_index) {
+        this.duration_index = duration_index;
     }
 
     public String getAnn_index() {
         return ann_index;
     }
 
+    public void setAnn_index(String ann_index) {
+        this.ann_index = ann_index;
+    }
+
     public String getTR_T() {
         return TR_T;
+    }
+
+    public void setTR_T(String TR_T) {
+        this.TR_T = TR_T;
     }
 }

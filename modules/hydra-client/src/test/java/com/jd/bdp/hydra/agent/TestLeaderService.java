@@ -11,14 +11,14 @@ import java.util.Map;
  * Date: 13-4-7
  * Time: 下午2:27
  */
-public class TestLeaderService implements LeaderService{
+public class TestLeaderService implements LeaderService {
     @Override
     public Map<String, String> registerClient(String name, List<String> services) {
-        Map<String,String> hash = new HashMap<String,String>();
-        hash.put("seed","10");
-        hash.put("testMethodA","0");
-        hash.put("testMethodB","1");
-        hash.put("testMethodC","2");
+        Map<String, String> hash = new HashMap<String, String>();
+        hash.put("seed", "10");
+        hash.put("testMethodA", "0");
+        hash.put("testMethodB", "1");
+        hash.put("testMethodC", "2");
         return null;
     }
 

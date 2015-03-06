@@ -32,6 +32,10 @@ import java.util.List;
  */
 public class ServiceServiceImpl implements ServiceService {
 
+    private ServiceMapper serviceMapper;
+    private AppMapper appMapper;
+    private ServiceIdGenService serviceIdGenService;
+
     @Override
     public synchronized String getServiceId(String serviceName, String appName) {
         AppPara appPara = appMapper.getApp(appName);
@@ -56,10 +60,6 @@ public class ServiceServiceImpl implements ServiceService {
     public List<ServicePara> get(Integer appId) {
         return serviceMapper.get(appId);
     }
-
-    private ServiceMapper serviceMapper;
-    private AppMapper appMapper;
-    private ServiceIdGenService serviceIdGenService;
 
     public void setServiceMapper(ServiceMapper serviceMapper) {
         this.serviceMapper = serviceMapper;

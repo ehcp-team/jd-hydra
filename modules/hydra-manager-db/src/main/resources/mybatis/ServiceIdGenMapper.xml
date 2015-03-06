@@ -20,10 +20,10 @@
 <mapper namespace="com.jd.bdp.hydra.mysql.persistent.dao.ServiceIdGenMapper">
 
     <resultMap id="ServiceIdGenResultMap" type="ServiceIdGenEntity">
-        <result property="maxId" column="MAX_ID" />
-        <result property="head" column="HEAD" />
-        <result property="maxHead" column="MAX_HEAD" />
-        <result property="idScope" column="ID_SCOPE" />
+        <result property="maxId" column="MAX_ID"/>
+        <result property="head" column="HEAD"/>
+        <result property="maxHead" column="MAX_HEAD"/>
+        <result property="idScope" column="ID_SCOPE"/>
     </resultMap>
 
     <!--修改一个App-->
@@ -32,6 +32,6 @@
     </update>
     <!--查询-->
     <select id="getServiceIdGen" resultMap="ServiceIdGenResultMap" resultType="ServiceIdGenEntity">
-        SELECT *  FROM TB_PARA_SERVICE_ID_GEN
+        SELECT * FROM TB_PARA_SERVICE_ID_GEN
     </select>
 </mapper>

@@ -16,7 +16,6 @@
 
 package com.jd.bdp.service.exp2.impl;
 
-
 import com.jd.bdp.service.exp2.inter.InterfaceC1;
 import com.jd.bdp.service.exp2.inter.InterfaceD1;
 
@@ -26,6 +25,8 @@ import com.jd.bdp.service.exp2.inter.InterfaceD1;
  * Time: 下午2:34
  */
 public class ServiceD1 implements InterfaceD1 {
+
+    private InterfaceC1 serviceC1;
 
     @Override
     public Object functionD1(Object... objects) {
@@ -38,8 +39,6 @@ public class ServiceD1 implements InterfaceD1 {
         returnVoice = "(" + returnVoice + ")";
         return returnVoice;
     }
-
-    private InterfaceC1 serviceC1;
 
     public void setServiceC1(InterfaceC1 serviceC1) {
         this.serviceC1 = serviceC1;

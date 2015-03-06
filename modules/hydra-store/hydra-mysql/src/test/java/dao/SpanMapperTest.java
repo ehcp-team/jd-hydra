@@ -18,10 +18,11 @@ package dao;
 
 import com.jd.bdp.hydra.Span;
 import com.jd.bdp.hydra.mysql.persistent.dao.SpanMapper;
-import org.junit.Test;
-import org.springframework.test.AbstractDependencyInjectionSpringContextTests;
 
 import java.util.List;
+
+import org.junit.Test;
+import org.springframework.test.AbstractDependencyInjectionSpringContextTests;
 
 /**
  * User: biandi
@@ -30,14 +31,16 @@ import java.util.List;
  */
 public class SpanMapperTest extends AbstractDependencyInjectionSpringContextTests {
 
+    private SpanMapper spanMapper;
+
     @Override
     protected String[] getConfigLocations() {
-        String[] location = {"classpath:hydra-mysql.xml"};
+        String[] location = { "classpath:hydra-mysql.xml" };
         return location;
     }
 
     @Test
-    public void testFindSpanByTraceId(){
+    public void testFindSpanByTraceId() {
         try {
             spanMapper.deleteAllSpans();
             prepareTestSpans();
@@ -46,16 +49,16 @@ public class SpanMapperTest extends AbstractDependencyInjectionSpringContextTest
             boolean f1 = false;
             boolean f2 = false;
             boolean f3 = false;
-            for(Span span : list){
-                if (span.getSpanName().equalsIgnoreCase("span1")){
+            for (Span span : list) {
+                if (span.getSpanName().equalsIgnoreCase("span1")) {
                     f1 = true;
                     continue;
                 }
-                if (span.getSpanName().equalsIgnoreCase("span2")){
+                if (span.getSpanName().equalsIgnoreCase("span2")) {
                     f2 = true;
                     continue;
                 }
-                if (span.getSpanName().equalsIgnoreCase("span3")){
+                if (span.getSpanName().equalsIgnoreCase("span3")) {
                     f3 = true;
                     continue;
                 }
@@ -63,10 +66,10 @@ public class SpanMapperTest extends AbstractDependencyInjectionSpringContextTest
             assertTrue(f1);
             assertTrue(f2);
             assertTrue(f3);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             assertTrue(false);
-        }finally {
+        } finally {
             spanMapper.deleteAllSpans();
         }
     }
@@ -96,9 +99,6 @@ public class SpanMapperTest extends AbstractDependencyInjectionSpringContextTest
         spanMapper.addSpan(s2);
         spanMapper.addSpan(s3);
     }
-
-
-    private SpanMapper spanMapper;
 
     public void setSpanMapper(SpanMapper spanMapper) {
         this.spanMapper = spanMapper;

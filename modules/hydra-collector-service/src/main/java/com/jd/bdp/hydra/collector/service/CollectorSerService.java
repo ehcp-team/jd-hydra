@@ -6,14 +6,14 @@ import com.jd.dd.glowworm.PB;
 import com.taobao.metamorphosis.Message;
 import com.taobao.metamorphosis.client.consumer.MessageConsumer;
 import com.taobao.metamorphosis.client.consumer.MessageListener;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Date: 13-4-17
@@ -38,19 +38,6 @@ public class CollectorSerService {
         this.topic = topic;
     }
 
-    class HbaseConsumer implements MessageListener {
-        @Override
-        public void recieveMessages(Message message) {
-            persistent(message);
-        }
-
-        @Override
-        public Executor getExecutor() {
-            return executorService;
-        }
-    }
-
-
     public void subscribe() throws Exception {
         consumer.subscribe(topic, 1024 * 1024, new HbaseConsumer()).completeSubscribe();
     }
@@ -74,6 +61,18 @@ public class CollectorSerService {
         } catch (Exception e) {
             e.printStackTrace();
             log.error(e.getMessage());
+        }
+    }
+
+    class HbaseConsumer implements MessageListener {
+        @Override
+        public void recieveMessages(Message message) {
+            persistent(message);
+        }
+
+        @Override
+        public Executor getExecutor() {
+            return executorService;
         }
     }
 }

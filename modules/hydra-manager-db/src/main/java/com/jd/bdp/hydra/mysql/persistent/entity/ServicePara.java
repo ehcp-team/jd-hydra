@@ -33,14 +33,19 @@ public class ServicePara implements Serializable {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof ServicePara)) return false;
+        if (this == o)
+            return true;
+        if (!(o instanceof ServicePara))
+            return false;
 
         ServicePara that = (ServicePara) o;
 
-        if (appId != null ? !appId.equals(that.appId) : that.appId != null) return false;
-        if (id != null ? !id.equals(that.id) : that.id != null) return false;
-        if (name != null ? !name.equals(that.name) : that.name != null) return false;
+        if (appId != null ? !appId.equals(that.appId) : that.appId != null)
+            return false;
+        if (id != null ? !id.equals(that.id) : that.id != null)
+            return false;
+        if (name != null ? !name.equals(that.name) : that.name != null)
+            return false;
 
         return true;
     }

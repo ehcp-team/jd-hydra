@@ -7,10 +7,8 @@ package com.jd.bdp.hydra.jmetertest.support;
  */
 public class HbaseDBContext extends AbstractJmeterDBContext {
     @Override
-    public  String[] getConfigLocations() {
-        String[] location = {
-                "classpath*:hydra-hbase-interface-test.xml"
-        };
+    public String[] getConfigLocations() {
+        String[] location = { "classpath*:hydra-hbase-interface-test.xml" };
         return location;
     }
 }

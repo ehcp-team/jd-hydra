@@ -21,17 +21,21 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.jd.bdp.hydra.Annotation;
 import com.jd.bdp.hydra.store.inter.QueryService;
-import org.apache.commons.lang.StringUtils;
-import org.apache.hadoop.hbase.KeyValue;
-import org.apache.hadoop.hbase.client.*;
-import org.apache.hadoop.hbase.filter.Filter;
-import org.apache.hadoop.hbase.filter.PageFilter;
-import org.apache.hadoop.hbase.util.Bytes;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.apache.commons.lang.StringUtils;
+import org.apache.hadoop.hbase.KeyValue;
+import org.apache.hadoop.hbase.client.Get;
+import org.apache.hadoop.hbase.client.HTableInterface;
+import org.apache.hadoop.hbase.client.Result;
+import org.apache.hadoop.hbase.client.ResultScanner;
+import org.apache.hadoop.hbase.client.Scan;
+import org.apache.hadoop.hbase.filter.Filter;
+import org.apache.hadoop.hbase.filter.PageFilter;
 
 /**
  * User: biandi
@@ -156,7 +160,7 @@ public class QueryServiceImpl extends HbaseUtils implements QueryService {
     private JSONObject assembleTrace(List<KeyValue> list) {
         JSONObject trace = new JSONObject();
         Map<String, JSONObject> map = new HashMap<String, JSONObject>();
-        if (list != null){
+        if (list != null) {
             for (KeyValue kv : list) {
                 JSONObject content = JSON.parseObject(new String(kv.getValue()));
                 JSONObject spanAleadyExist;
@@ -259,72 +263,71 @@ public class QueryServiceImpl extends HbaseUtils implements QueryService {
         return cr - cs;
     }
 
+    //    public void setOneItem(String tableName, String familyColumnName, String rowkey, String columnName, byte[] valueParm) {
+    //        HTableInterface table = POOL.getTable(tableName);
+    //        table.setAutoFlush(true);//自动提交
+    //        try {
+    //            Put put = new Put(Bytes.toBytes(rowkey));
+    //            put.add(Bytes.toBytes(familyColumnName), Bytes.toBytes(columnName), valueParm);
+    //            table.put(put);
+    ////            table.flushCommits();//手动提交，最好每次close之前手动提交...
+    //        } catch (IOException e) {
+    //            e.printStackTrace();
+    //        } finally {
+    //            try {
+    //                table.close();
+    //            } catch (IOException e) {
+    //                e.printStackTrace();
+    //            }
+    //        }
+    //    }
 
-//    public void setOneItem(String tableName, String familyColumnName, String rowkey, String columnName, byte[] valueParm) {
-//        HTableInterface table = POOL.getTable(tableName);
-//        table.setAutoFlush(true);//自动提交
-//        try {
-//            Put put = new Put(Bytes.toBytes(rowkey));
-//            put.add(Bytes.toBytes(familyColumnName), Bytes.toBytes(columnName), valueParm);
-//            table.put(put);
-////            table.flushCommits();//手动提交，最好每次close之前手动提交...
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        } finally {
-//            try {
-//                table.close();
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//        }
-//    }
+    //    /**
+    //     * 删除指定表名的rowKey下某时间戳的数据。
+    //     */
+    //    public boolean delete(String tableName, String rowKey) {
+    //        boolean result = false;
+    //        HTableInterface hTable = null;
+    //        try {
+    //            hTable = POOL.getTable(Bytes.toBytes(tableName));
+    //
+    //            if (hTable == null) {
+    //                return result;
+    //            }
+    //
+    //            byte[] rowKeys = Bytes.toBytes(rowKey);
+    //            Delete delete = new Delete(rowKeys);
+    //            hTable.delete(delete);
+    //            result = true;
+    //        } catch (Exception e) {
+    //
+    //
+    //        } finally {
+    //            try {
+    //                hTable.close();
+    //            } catch (IOException e) {
+    //                e.printStackTrace();
+    //            }
+    //        }
+    //
+    //        return result;
+    //    }
+    //
+    //
+    //    public void createTable(String tableName, String familyColumnName) {
+    //        try {
+    //            HBaseAdmin hBaseAdmin = new HBaseAdmin(conf);
+    //            if (!hBaseAdmin.tableExists(tableName)) {
+    //                HTableDescriptor hTableDescriptor = new HTableDescriptor(tableName);
+    //                hTableDescriptor.addFamily(new HColumnDescriptor(familyColumnName));
+    //                hBaseAdmin.createTable(hTableDescriptor);
+    //            }
+    //        } catch (IOException e) {
+    //            e.printStackTrace();
+    //        }
+    //    }
 
-//    /**
-//     * 删除指定表名的rowKey下某时间戳的数据。
-//     */
-//    public boolean delete(String tableName, String rowKey) {
-//        boolean result = false;
-//        HTableInterface hTable = null;
-//        try {
-//            hTable = POOL.getTable(Bytes.toBytes(tableName));
-//
-//            if (hTable == null) {
-//                return result;
-//            }
-//
-//            byte[] rowKeys = Bytes.toBytes(rowKey);
-//            Delete delete = new Delete(rowKeys);
-//            hTable.delete(delete);
-//            result = true;
-//        } catch (Exception e) {
-//
-//
-//        } finally {
-//            try {
-//                hTable.close();
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//        }
-//
-//        return result;
-//    }
-//
-//
-//    public void createTable(String tableName, String familyColumnName) {
-//        try {
-//            HBaseAdmin hBaseAdmin = new HBaseAdmin(conf);
-//            if (!hBaseAdmin.tableExists(tableName)) {
-//                HTableDescriptor hTableDescriptor = new HTableDescriptor(tableName);
-//                hTableDescriptor.addFamily(new HColumnDescriptor(familyColumnName));
-//                hBaseAdmin.createTable(hTableDescriptor);
-//            }
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//    }
-
-//    public static void main(String[] args){
-//        QueryServiceImpl queryService =
-//    }
+    //    public static void main(String[] args){
+    //        QueryServiceImpl queryService =
+    //    }
 }

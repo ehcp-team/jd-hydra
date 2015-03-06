@@ -18,12 +18,12 @@
 <!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
     <settings>
-        <setting name="lazyLoadingEnabled" value="false" />
+        <setting name="lazyLoadingEnabled" value="false"/>
     </settings>
     <typeAliases>
-        <typeAlias alias="TraceEntity" type="com.jd.bdp.hydra.mysql.persistent.entity.Trace" />
-        <typeAlias alias="SpanEntity" type="com.jd.bdp.hydra.Span" />
-        <typeAlias alias="AnnEntity" type="com.jd.bdp.hydra.mysql.persistent.entity.Absannotation" />
+        <typeAlias alias="TraceEntity" type="com.jd.bdp.hydra.mysql.persistent.entity.Trace"/>
+        <typeAlias alias="SpanEntity" type="com.jd.bdp.hydra.Span"/>
+        <typeAlias alias="AnnEntity" type="com.jd.bdp.hydra.mysql.persistent.entity.Absannotation"/>
     </typeAliases>
     <mappers>
         <mapper resource="mybatis/TraceMapper.xml"/>

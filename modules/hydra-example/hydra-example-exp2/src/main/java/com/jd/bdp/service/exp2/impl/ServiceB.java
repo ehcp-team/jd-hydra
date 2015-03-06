@@ -27,6 +27,9 @@ import com.jd.bdp.service.exp2.inter.InterfaceC2;
  */
 public class ServiceB implements InterfaceB {
 
+    private InterfaceC1 serviceC1;
+    private InterfaceC2 serviceC2;
+
     @Override
     public Object functionB(Object... objects) {
         String myVoice = new String("B");
@@ -43,9 +46,6 @@ public class ServiceB implements InterfaceB {
         returnVoice = "(" + returnVoice + ")";
         return returnVoice;
     }
-
-    private InterfaceC1 serviceC1;
-    private InterfaceC2 serviceC2;
 
     public void setServiceC1(InterfaceC1 serviceC1) {
         this.serviceC1 = serviceC1;

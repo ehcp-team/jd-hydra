@@ -25,7 +25,7 @@
     <!--新增加一个App-->
     <insert id="addApp" parameterType="AppEntity" useGeneratedKeys="true">
         <selectKey resultType="int" keyProperty="id" order="AFTER">
-           SELECT LAST_INSERT_ID()
+            SELECT LAST_INSERT_ID()
         </selectKey>
         INSERT INTO TB_PARA_APP(NAME) VALUES(#{name})
     </insert>
@@ -39,16 +39,16 @@
     </update>
     <!--查询-->
     <select id="getAppById" parameterType="int" resultType="AppEntity">
-        SELECT *  FROM TB_PARA_APP WHERE ID = #{id}
+        SELECT * FROM TB_PARA_APP WHERE ID = #{id}
     </select>
     <!-- 查询服务器列表 -->
     <select id="getAppAll" resultType="AppEntity" resultMap="AppResultMap">
-            SELECT * FROM TB_PARA_APP
+        SELECT * FROM TB_PARA_APP
     </select>
 
     <!-- 根据name查app -->
     <select id="getAppByName" parameterType="String" resultType="AppEntity">
-        SELECT *  FROM TB_PARA_APP WHERE NAME = #{name}
+        SELECT * FROM TB_PARA_APP WHERE NAME = #{name}
     </select>
     <!-- 删除所有app -->
     <delete id="deleteAllApp">

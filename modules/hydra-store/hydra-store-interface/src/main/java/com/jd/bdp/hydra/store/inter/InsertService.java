@@ -16,16 +16,13 @@
 
 package com.jd.bdp.hydra.store.inter;
 
-
 import com.jd.bdp.hydra.Span;
 
-import java.io.IOException;
-
 /**
-  * User: yfliuyu
+ * User: yfliuyu
  * Date: 13-4-16
  * Time: 上午11:04
-  */
+ */
 public interface InsertService {
     void addSpan(Span span);
 

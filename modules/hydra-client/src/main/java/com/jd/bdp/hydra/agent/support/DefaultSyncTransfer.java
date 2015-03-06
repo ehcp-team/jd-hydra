@@ -2,13 +2,17 @@ package com.jd.bdp.hydra.agent.support;
 
 import com.jd.bdp.hydra.Span;
 import com.jd.bdp.hydra.agent.SyncTransfer;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.*;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Date: 13-3-19
@@ -23,7 +27,6 @@ public class DefaultSyncTransfer implements SyncTransfer {
 
     private ScheduledExecutorService executors = null;
     private List<Span> spansCache;
-
 
     //serviceName isReady
     private volatile boolean isReady = false; //是否获得种子等全局注册信息
@@ -40,12 +43,6 @@ public class DefaultSyncTransfer implements SyncTransfer {
 
     private TransferTask task;
 
-
-    @Override
-    public void setTraceService(TraceService traceService) {
-        this.traceService = traceService;
-    }
-
     public DefaultSyncTransfer(Configuration c) {
         this.flushSize = c.getFlushSize() == null ? 1024L : c.getFlushSize();
         this.waitTime = c.getDelayTime() == null ? 60000L : c.getDelayTime();
@@ -56,58 +53,14 @@ public class DefaultSyncTransfer implements SyncTransfer {
     }
 
     @Override
+    public void setTraceService(TraceService traceService) {
+        this.traceService = traceService;
+    }
+
+    @Override
     public String appName() {
         //fixme
         return "test";
-    }
-
-    private class TransferTask extends Thread {
-        TransferTask() {
-            this.setName("TransferTask-Thread");
-        }
-
-        @Override
-        public void run() {
-            for (; ; ) {
-                try {
-                    if (!isReady()) {//重试直到注册成功
-                        //全局信息网络注册，输入流：应用名 @ 输出流：包含种子的Map对象
-                        boolean r = traceService.registerService(appName(), new ArrayList<String>());
-                        if (r) {
-                            generateTraceId = new GenerateTraceId(traceService.getSeed());
-                            isReady = true;
-                        } else {
-                            synchronized (this) {
-                                this.wait(waitTime);
-                            }
-                        }
-                    } else {
-                        while (!task.isInterrupted()) {
-                            //检查是否有未注册服务，先注册
-                            for (Map.Entry<String, Boolean> entry : isServiceReady.entrySet()) {
-                                if (false == entry.getValue()) {//没有注册，先注册
-                                    boolean r = traceService.registerService(appName(), entry.getKey());
-                                    if (r) {
-                                        entry.setValue(true);
-                                    }
-                                }
-                            }
-                            //-----------------------------
-                            Span first = queue.take();
-                            spansCache.add(first);
-                            queue.drainTo(spansCache);
-                            traceService.sendSpan(spansCache);
-                            spansCache.clear();
-                        }
-                    }
-
-                } catch (Throwable e) {
-                    e.printStackTrace();
-                    logger.info(e.getMessage());
-                }
-            }
-        }
-
     }
 
     @Override
@@ -165,8 +118,58 @@ public class DefaultSyncTransfer implements SyncTransfer {
     public Long getTraceId() {
         return generateTraceId.getTraceId();
     }
+
     @Override
     public Long getSpanId() {
         return generateTraceId.getTraceId();
+    }
+
+    private class TransferTask extends Thread {
+        TransferTask() {
+            this.setName("TransferTask-Thread");
+        }
+
+        @Override
+        public void run() {
+            for (; ; ) {
+                try {
+                    if (!isReady()) {//重试直到注册成功
+                        //全局信息网络注册，输入流：应用名 @ 输出流：包含种子的Map对象
+                        boolean r = traceService.registerService(appName(), new ArrayList<String>());
+                        if (r) {
+                            generateTraceId = new GenerateTraceId(traceService.getSeed());
+                            isReady = true;
+                        } else {
+                            synchronized (this) {
+                                this.wait(waitTime);
+                            }
+                        }
+                    } else {
+                        while (!task.isInterrupted()) {
+                            //检查是否有未注册服务，先注册
+                            for (Map.Entry<String, Boolean> entry : isServiceReady.entrySet()) {
+                                if (false == entry.getValue()) {//没有注册，先注册
+                                    boolean r = traceService.registerService(appName(), entry.getKey());
+                                    if (r) {
+                                        entry.setValue(true);
+                                    }
+                                }
+                            }
+                            //-----------------------------
+                            Span first = queue.take();
+                            spansCache.add(first);
+                            queue.drainTo(spansCache);
+                            traceService.sendSpan(spansCache);
+                            spansCache.clear();
+                        }
+                    }
+
+                } catch (Throwable e) {
+                    e.printStackTrace();
+                    logger.info(e.getMessage());
+                }
+            }
+        }
+
     }
 }

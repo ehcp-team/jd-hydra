@@ -26,9 +26,8 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 public class StartServiceC2 {
 
     public static void main(String[] args) throws Exception {
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[]{
-                "classpath*:dubbo-service-exp2-C2.xml",
-        });
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(
+                new String[] { "classpath*:dubbo-service-exp2-C2.xml", });
         context.start();
         Thread.sleep(999999999);
     }

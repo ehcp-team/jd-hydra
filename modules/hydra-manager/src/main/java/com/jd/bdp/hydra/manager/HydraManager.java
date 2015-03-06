@@ -9,9 +9,8 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  */
 public class HydraManager {
     public static void main(String[] strings) {
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[]{
-                "classpath*:hydra-manager.xml"
-        });
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(
+                new String[] { "classpath*:hydra-manager.xml" });
         context.start();
         while (true) {
             try {

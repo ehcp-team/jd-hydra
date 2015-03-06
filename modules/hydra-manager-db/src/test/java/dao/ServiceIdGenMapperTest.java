@@ -18,6 +18,7 @@ package dao;
 
 import com.jd.bdp.hydra.mysql.persistent.dao.ServiceIdGenMapper;
 import com.jd.bdp.hydra.mysql.persistent.entity.ServiceIdGen;
+
 import org.junit.Test;
 import org.springframework.test.AbstractDependencyInjectionSpringContextTests;
 
@@ -28,9 +29,10 @@ import org.springframework.test.AbstractDependencyInjectionSpringContextTests;
  */
 public class ServiceIdGenMapperTest extends AbstractDependencyInjectionSpringContextTests {
 
+    private ServiceIdGenMapper serviceIdGenMapper;
 
     @Test
-    public void testGet(){
+    public void testGet() {
         ServiceIdGen serviceIdGen = serviceIdGenMapper.getServiceIdGen();
         assertNotNull(serviceIdGen);
         assertNotNull(serviceIdGen.getMaxId());
@@ -51,15 +53,12 @@ public class ServiceIdGenMapperTest extends AbstractDependencyInjectionSpringCon
 
     @Override
     protected String[] getConfigLocations() {
-        String[] location = {"classpath:hydra-manager-db.xml"};
+        String[] location = { "classpath:hydra-manager-db.xml" };
         return location;
     }
-
-    private ServiceIdGenMapper serviceIdGenMapper;
 
     public void setServiceIdGenMapper(ServiceIdGenMapper serviceIdGenMapper) {
         this.serviceIdGenMapper = serviceIdGenMapper;
     }
-
 
 }

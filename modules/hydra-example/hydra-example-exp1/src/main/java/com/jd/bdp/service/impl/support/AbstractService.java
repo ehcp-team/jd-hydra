@@ -1,6 +1,7 @@
 package com.jd.bdp.service.impl.support;
 
 import com.jd.bdp.service.inter.support.Service;
+
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
@@ -9,8 +10,8 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  * Time: 下午2:36
  */
 public abstract class AbstractService implements Service {
-    ClassPathXmlApplicationContext context;//服务Spring上下文
     protected Service downService;//下游服务
+    ClassPathXmlApplicationContext context;//服务Spring上下文
 
     /**
      * 获取spring上下文，集中处理
@@ -39,6 +40,7 @@ public abstract class AbstractService implements Service {
     public Service getDownService() {
         return downService;
     }
+
     public void setDownService(Service downService) {
         this.downService = downService;
     }

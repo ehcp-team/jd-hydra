@@ -20,11 +20,11 @@ public class Absannotation {
     private Long spanId;
     private Long traceId;
 
-    public Absannotation(){
+    public Absannotation() {
 
     }
 
-    public Absannotation(BinaryAnnotation binaryAnnotation, Span span){
+    public Absannotation(BinaryAnnotation binaryAnnotation, Span span) {
         this.spanId = span.getId();
         this.traceId = span.getTraceId();
         this.key = binaryAnnotation.getKey();
@@ -34,7 +34,7 @@ public class Absannotation {
         this.service = span.getServiceId();
     }
 
-    public Absannotation(Annotation annotation, Span span){
+    public Absannotation(Annotation annotation, Span span) {
         this.spanId = span.getId();
         this.traceId = span.getTraceId();
         this.key = annotation.getValue();
@@ -132,13 +132,12 @@ public class Absannotation {
         this.spanId = spanId;
     }
 
-    public Long getTraceId(){
+    public Long getTraceId() {
         return this.traceId;
     }
 
     public void setTraceId(Long traceId) {
         this.traceId = traceId;
     }
-
 
 }

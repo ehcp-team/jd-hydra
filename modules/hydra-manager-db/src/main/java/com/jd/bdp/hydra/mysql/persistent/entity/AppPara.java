@@ -28,11 +28,12 @@ public class AppPara implements Serializable {
     private Integer id;
     private String name;
 
-
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof AppPara)) return false;
+        if (this == o)
+            return true;
+        if (!(o instanceof AppPara))
+            return false;
 
         AppPara appPara = (AppPara) o;
 

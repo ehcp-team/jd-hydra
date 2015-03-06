@@ -16,9 +16,9 @@
 
 package dao;
 
-
 import com.jd.bdp.hydra.mysql.persistent.dao.AppMapper;
 import com.jd.bdp.hydra.mysql.persistent.entity.AppPara;
+
 import org.junit.Test;
 import org.springframework.test.AbstractDependencyInjectionSpringContextTests;
 
@@ -29,9 +29,11 @@ import org.springframework.test.AbstractDependencyInjectionSpringContextTests;
  */
 public class AppMapperTest extends AbstractDependencyInjectionSpringContextTests {
 
+    private AppMapper appMapper;
+
     @Override
     protected String[] getConfigLocations() {
-        String[] location = {"classpath:hydra-manager-db.xml"};
+        String[] location = { "classpath:hydra-manager-db.xml" };
         return location;
     }
 
@@ -78,10 +80,9 @@ public class AppMapperTest extends AbstractDependencyInjectionSpringContextTests
 
     }
 
-
     //测试根据名称查找App
     @Test
-    public void testFindByName(){
+    public void testFindByName() {
         AppPara appPara = new AppPara();
         appPara.setName("payment");
         AppPara queryPara = null;
@@ -103,8 +104,6 @@ public class AppMapperTest extends AbstractDependencyInjectionSpringContextTests
             assertNull(queryPara);
         }
     }
-
-    private AppMapper appMapper;
 
     public void setAppMapper(AppMapper appMapper) {
         this.appMapper = appMapper;

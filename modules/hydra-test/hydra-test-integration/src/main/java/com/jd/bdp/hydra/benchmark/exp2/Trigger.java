@@ -17,6 +17,7 @@
 package com.jd.bdp.hydra.benchmark.exp2;
 
 import com.jd.bdp.service.exp2.inter.InterfaceA;
+
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -26,23 +27,39 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  * Time: 下午3:25
  */
 public class Trigger implements InitializingBean {
+    //getter and setter
+    private InterfaceA rootService;
+
+    public static void main(String[] args) {
+        try {
+            ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(
+                    new String[] { "classpath*:exp2-trigger-context.xml" });
+            context.start();
+            Trigger trigger = (Trigger) context.getBean("trigger");
+            // 每隔3s触发一次调用
+            trigger.startWorkWithSleep(10, 500);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     @Override
     public void afterPropertiesSet() throws InterruptedException {
         Thread.sleep(200);//服务预热
     }
+
     /**
-     *
-     * @param num  调用次数
-     * @param sleepTime  每次调用后沉默时间
+     * @param num       调用次数
+     * @param sleepTime 每次调用后沉默时间
      */
-    public void startWorkWithSleep(int num,long sleepTime) {
+    public void startWorkWithSleep(int num, long sleepTime) {
         for (int i = 0; i < num; i++) {
             try {
                 Object result = rootService.functionA();
                 System.out.println("result:" + result);
             } catch (Exception e) {
                 e.printStackTrace();
-            }finally {
+            } finally {
                 try {
                     Thread.sleep(sleepTime);
                 } catch (InterruptedException e) {
@@ -53,24 +70,7 @@ public class Trigger implements InitializingBean {
 
     }
 
-    //getter and setter
-    private InterfaceA rootService;
     public void setRootService(InterfaceA rootService) {
         this.rootService = rootService;
-    }
-
-
-    public static void main(String[] args){
-        try {
-            ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[]{
-                    "classpath*:exp2-trigger-context.xml"
-            });
-            context.start();
-            Trigger trigger=(Trigger)context.getBean("trigger");
-            // 每隔3s触发一次调用
-            trigger.startWorkWithSleep(10,500);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 }

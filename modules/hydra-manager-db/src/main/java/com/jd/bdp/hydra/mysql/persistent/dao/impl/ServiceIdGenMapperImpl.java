@@ -16,9 +16,9 @@
 
 package com.jd.bdp.hydra.mysql.persistent.dao.impl;
 
-
 import com.jd.bdp.hydra.mysql.persistent.dao.ServiceIdGenMapper;
 import com.jd.bdp.hydra.mysql.persistent.entity.ServiceIdGen;
+
 import org.mybatis.spring.SqlSessionTemplate;
 
 /**
@@ -27,6 +27,8 @@ import org.mybatis.spring.SqlSessionTemplate;
  * Time: 上午9:50
  */
 public class ServiceIdGenMapperImpl implements ServiceIdGenMapper {
+
+    private SqlSessionTemplate sqlSession;
 
     @Override
     public void updateServiceIdGen(ServiceIdGen serviceIdGen) {
@@ -37,8 +39,6 @@ public class ServiceIdGenMapperImpl implements ServiceIdGenMapper {
     public ServiceIdGen getServiceIdGen() {
         return (ServiceIdGen) sqlSession.selectOne("getServiceIdGen");
     }
-
-    private SqlSessionTemplate sqlSession;
 
     public void setSqlSession(SqlSessionTemplate sqlSession) {
         this.sqlSession = sqlSession;

@@ -18,22 +18,24 @@ package com.jd.bdp.hydra.mysql.persistent.dao.impl;
 
 import com.jd.bdp.hydra.mysql.persistent.dao.TraceMapper;
 import com.jd.bdp.hydra.mysql.persistent.entity.Trace;
-import org.mybatis.spring.SqlSessionTemplate;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.mybatis.spring.SqlSessionTemplate;
 
 /**
  * User: biandi
  * Date: 13-5-8
  * Time: 下午3:29
  */
-public class TraceMapperImpl implements TraceMapper{
+public class TraceMapperImpl implements TraceMapper {
+
+    private SqlSessionTemplate sqlSession;
 
     @Override
-    public List<Trace> findTraces(String serviceId, Long startTime, int num){
+    public List<Trace> findTraces(String serviceId, Long startTime, int num) {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("startTime", startTime);
         map.put("num", num);
@@ -42,7 +44,8 @@ public class TraceMapperImpl implements TraceMapper{
     }
 
     @Override
-    public List<Trace> findTracesByDuration(String serviceId, Long startTime, int durationMin, int durationMax, int num){
+    public List<Trace> findTracesByDuration(String serviceId, Long startTime, int durationMin, int durationMax,
+            int num) {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("serviceId", serviceId);
         map.put("startTime", startTime);
@@ -62,15 +65,13 @@ public class TraceMapperImpl implements TraceMapper{
     }
 
     public void addTrace(Trace t) {
-        sqlSession.insert("addTrace",t);
+        sqlSession.insert("addTrace", t);
     }
 
     @Override
-    public void deleteAllTraces(){
+    public void deleteAllTraces() {
         sqlSession.delete("deleteAllTraces");
     }
-
-    private SqlSessionTemplate sqlSession;
 
     public void setSqlSession(SqlSessionTemplate sqlSession) {
         this.sqlSession = sqlSession;

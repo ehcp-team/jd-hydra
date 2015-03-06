@@ -1,9 +1,9 @@
 package com.jd.bdp.hydra.agent.support;
 
+import java.util.concurrent.atomic.AtomicLong;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * Date: 13-3-27
@@ -23,7 +23,6 @@ public class GenerateTraceId {
     public Long getTraceId() {
         return (seed << 40) | getPlusId();
     }
-
 
     private long getPlusId() {
         if (plusId.get() >= MAX_STEP) {

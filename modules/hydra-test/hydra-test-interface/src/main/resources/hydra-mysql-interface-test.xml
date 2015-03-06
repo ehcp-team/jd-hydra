@@ -15,12 +15,10 @@
   ~    limitations under the License.
   -->
 
-<beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:context="http://www.springframework.org/schema/context"
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="http://www.springframework.org/schema/beans"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans.xsd
-        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd" default-autowire="byName">
+        http://www.springframework.org/schema/beans/spring-beans.xsd" default-autowire="byName">
 
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="com.mysql.jdbc.Driver"></property>
@@ -52,6 +50,6 @@
         <property name="sqlSession" ref="sqlSessionTemplate"/>
     </bean>
 
-    <bean id="insertService" class="com.jd.bdp.hydra.mysql.service.impl.InsertServiceImpl" />
-    <bean id="queryService" class="com.jd.bdp.hydra.mysql.service.impl.QueryServiceImpl" />
+    <bean id="insertService" class="com.jd.bdp.hydra.mysql.service.impl.InsertServiceImpl"/>
+    <bean id="queryService" class="com.jd.bdp.hydra.mysql.service.impl.QueryServiceImpl"/>
 </beans>

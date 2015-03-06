@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>hydra-test</artifactId>
@@ -87,18 +87,18 @@
 
             <!--内侧使用Jmeter-->
             <!--<plugin>-->
-                <!--<groupId>com.lazerycode.jmeter</groupId>-->
-                <!--<artifactId>jmeter-maven-plugin</artifactId>-->
-                <!--<version>1.8.1</version>-->
-                <!--<executions>-->
-                    <!--<execution>-->
-                        <!--<id>jmeter-tests</id>-->
-                        <!--<phase>verify</phase>-->
-                        <!--<goals>-->
-                            <!--<goal>jmeter</goal>-->
-                        <!--</goals>-->
-                    <!--</execution>-->
-                <!--</executions>-->
+            <!--<groupId>com.lazerycode.jmeter</groupId>-->
+            <!--<artifactId>jmeter-maven-plugin</artifactId>-->
+            <!--<version>1.8.1</version>-->
+            <!--<executions>-->
+            <!--<execution>-->
+            <!--<id>jmeter-tests</id>-->
+            <!--<phase>verify</phase>-->
+            <!--<goals>-->
+            <!--<goal>jmeter</goal>-->
+            <!--</goals>-->
+            <!--</execution>-->
+            <!--</executions>-->
             <!--</plugin>-->
         </plugins>
     </build>

@@ -8,15 +8,23 @@ package com.jd.bdp.hydra.benchmark.support;
  */
 
 import com.jd.bdp.hydra.benchmark.support.utils.PropertyUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import java.io.*;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.lang.reflect.InvocationTargetException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.CyclicBarrier;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Abstract benchmark client,test for difference scenes Usage: -Dwrite.statistics=false BenchmarkClient serverIP
@@ -26,19 +34,13 @@ import java.util.concurrent.CyclicBarrier;
  */
 public abstract class AbstractBenchmarkClient {
 
-
+    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     private static long maxTPS = 0;
-
     private static long minTPS = 0;
-
     private static long allRequestSum;
-
     private static long allResponseTimeSum;
-
     private static long allErrorRequestSum;
-
     private static long allErrorResponseTimeSum;
-
     private static int runtime;
     // < 0
     private static long below0sum;
@@ -53,10 +55,8 @@ public abstract class AbstractBenchmarkClient {
     private static long above500sum;
     // > 1000
     private static long above1000sum;
-
-    protected Properties properties = PropertyUtils.getProperties();
-    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     private static Logger logger = LoggerFactory.getLogger(PropertyUtils.class);
+    protected Properties properties = PropertyUtils.getProperties();
 
     public void run(String[] args) throws Exception {
         //----------------read messages from outer files-----------------------
@@ -193,23 +193,26 @@ public abstract class AbstractBenchmarkClient {
         System.out.println(" Benchmark Time: " + times.keySet().size());
         long benchmarkRequest = allRequestSum + allErrorRequestSum;
         long allRequest = benchmarkRequest + ignoreRequest + ignoreErrorRequest;
-        System.out.println(" Requests: " + allRequest + " Success: " + (allRequestSum + ignoreRequest) * 100
-                / allRequest + "% (" + (allRequestSum + ignoreRequest) + ") Error: "
-                + (allErrorRequestSum + ignoreErrorRequest) * 100 / allRequest + "% ("
-                + (allErrorRequestSum + ignoreErrorRequest) + ")");
-        System.out.println(" Avg TPS: " + benchmarkRequest / times.keySet().size() + " Max TPS: " + maxTPS
-                + " Min TPS: " + minTPS);
-        System.out.println(" Avg RT: " + (allErrorResponseTimeSum + allResponseTimeSum) / benchmarkRequest / 1000f
-                + "ms");
+        System.out.println(
+                " Requests: " + allRequest + " Success: " + (allRequestSum + ignoreRequest) * 100 / allRequest + "% ("
+                        + (allRequestSum + ignoreRequest) + ") Error: "
+                        + (allErrorRequestSum + ignoreErrorRequest) * 100 / allRequest + "% (" + (allErrorRequestSum
+                        + ignoreErrorRequest) + ")");
+        System.out.println(
+                " Avg TPS: " + benchmarkRequest / times.keySet().size() + " Max TPS: " + maxTPS + " Min TPS: "
+                        + minTPS);
+        System.out.println(
+                " Avg RT: " + (allErrorResponseTimeSum + allResponseTimeSum) / benchmarkRequest / 1000f + "ms");
         System.out.println(" RT <= 0: " + (below0sum * 100 / allRequest) + "% " + below0sum + "/" + allRequest);
         System.out.println(" RT (0,1]: " + (above0sum * 100 / allRequest) + "% " + above0sum + "/" + allRequest);
         System.out.println(" RT (1,5]: " + (above1sum * 100 / allRequest) + "% " + above1sum + "/" + allRequest);
         System.out.println(" RT (5,10]: " + (above5sum * 100 / allRequest) + "% " + above5sum + "/" + allRequest);
         System.out.println(" RT (10,50]: " + (above10sum * 100 / allRequest) + "% " + above10sum + "/" + allRequest);
         System.out.println(" RT (50,100]: " + (above50sum * 100 / allRequest) + "% " + above50sum + "/" + allRequest);
-        System.out.println(" RT (100,500]: " + (above100sum * 100 / allRequest) + "% " + above100sum + "/" + allRequest);
-        System.out.println(" RT (500,1000]: " + (above500sum * 100 / allRequest) + "% " + above500sum + "/"
-                + allRequest);
+        System.out
+                .println(" RT (100,500]: " + (above100sum * 100 / allRequest) + "% " + above100sum + "/" + allRequest);
+        System.out
+                .println(" RT (500,1000]: " + (above500sum * 100 / allRequest) + "% " + above500sum + "/" + allRequest);
         System.out.println(" RT > 1000: " + (above1000sum * 100 / allRequest) + "% " + above1000sum + "/" + allRequest);
         System.exit(0);
         //----------------------------------------------------------------------------------------------------------------
@@ -217,8 +220,9 @@ public abstract class AbstractBenchmarkClient {
 
     //template function
     public abstract ClientRunnable getClientRunnable(String targetIP, int targetPort, int clientNums, int rpcTimeout,
-                                                     CyclicBarrier barrier, CountDownLatch latch, long startTime,
-                                                     long endTime) throws IllegalArgumentException, SecurityException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException, ClassNotFoundException;
+            CyclicBarrier barrier, CountDownLatch latch, long startTime, long endTime)
+            throws IllegalArgumentException, SecurityException, InstantiationException, IllegalAccessException,
+            InvocationTargetException, NoSuchMethodException, ClassNotFoundException;
 
     protected void startRunnables(List<ClientRunnable> runnables) {
         for (int i = 0; i < runnables.size(); i++) {

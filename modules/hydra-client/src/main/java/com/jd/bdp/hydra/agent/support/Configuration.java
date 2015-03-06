@@ -27,15 +27,15 @@ public class Configuration {
         return services;
     }
 
-    public void addService(String service){
-        if(services == null){
+    public void setServices(List<String> services) {
+        this.services = services;
+    }
+
+    public void addService(String service) {
+        if (services == null) {
             services = new ArrayList<String>();
         }
         services.add(service);
-    }
-
-    public void setServices(List<String> services) {
-        this.services = services;
     }
 
     public Long getDelayTime() {

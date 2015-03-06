@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.jd.bdp.hydra.jmetertest.support.AbstractJmeterDBContext;
 import com.jd.bdp.hydra.jmetertest.support.HbaseDBContext;
 import com.jd.bdp.hydra.store.inter.QueryService;
+
 import org.apache.jmeter.config.Arguments;
 import org.apache.jmeter.protocol.java.sampler.AbstractJavaSamplerClient;
 import org.apache.jmeter.protocol.java.sampler.JavaSamplerContext;
@@ -18,14 +19,14 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  * Time: 下午6:43
  */
 public class JMeterGetTraceInfo extends AbstractJavaSamplerClient {
-    AbstractJmeterDBContext dbContext;
     private static Logger logger = LoggerFactory.getLogger(JMeterGetTraceInfo.class);
+    AbstractJmeterDBContext dbContext;
     private QueryService queryService;
     //arguments
     private Long traceId;
 
     public void setupTest(JavaSamplerContext arg) {
-        dbContext=new HbaseDBContext();
+        dbContext = new HbaseDBContext();
         String[] configs = dbContext.getConfigLocations();
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(configs);
         context.start();
@@ -46,7 +47,7 @@ public class JMeterGetTraceInfo extends AbstractJavaSamplerClient {
     @Override
     public SampleResult runTest(JavaSamplerContext javaSamplerContext) {
         SampleResult sr = new SampleResult();
-        sr.setSampleLabel("JMeterGetTraceInfo"+traceId);
+        sr.setSampleLabel("JMeterGetTraceInfo" + traceId);
         sr.sampleStart();
         try {
             JSONObject jsonObject = queryService.getTraceInfo(traceId);
@@ -66,6 +67,5 @@ public class JMeterGetTraceInfo extends AbstractJavaSamplerClient {
     // 结束方法，实际运行时每个线程仅执行一次，在测试方法运行结束后执行，类似于LoadRunner中的end方法
     public void teardownTest(JavaSamplerContext arg0) {
     }
-
 
 }

@@ -10,10 +10,10 @@ import java.util.List;
  * Date: 13-4-7
  * Time: 下午3:22
  */
-public class TestHydraService implements HydraService{
+public class TestHydraService implements HydraService {
     @Override
     public boolean push(List<Span> span) {
-        System.out.println("span size:"+span.size());
+        System.out.println("span size:" + span.size());
         return false;
     }
 }

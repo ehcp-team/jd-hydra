@@ -28,6 +28,7 @@ import java.util.List;
  */
 public interface AnnotationMapper {
     public void addAnnotation(Absannotation absannotation);
+
     List<Absannotation> getAnnotations(List<Span> list);
 
     //测试用

@@ -1,5 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>hydra-store</artifactId>
         <groupId>com.jd.bdp</groupId>
@@ -9,23 +9,23 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-  <artifactId>hydra-store-interface</artifactId>
-  <packaging>jar</packaging>
+    <artifactId>hydra-store-interface</artifactId>
+    <packaging>jar</packaging>
 
-  <name>HYDRA STORE INTERFACE</name>
+    <name>HYDRA STORE INTERFACE</name>
 
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-  </properties>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
 
-  <dependencies>
-      <dependency>
-          <groupId>com.alibaba</groupId>
-          <artifactId>fastjson</artifactId>
-      </dependency>
-      <dependency>
-          <groupId>com.jd.bdp</groupId>
-          <artifactId>hydra-interface</artifactId>
-      </dependency>
-  </dependencies>
+    <dependencies>
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.jd.bdp</groupId>
+            <artifactId>hydra-interface</artifactId>
+        </dependency>
+    </dependencies>
 </project>

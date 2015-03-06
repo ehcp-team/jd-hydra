@@ -1,17 +1,16 @@
 package com.jd.bdp.hydra.agent.support;
 
-
 import com.jd.bdp.hydra.Span;
 import com.jd.bdp.hydra.agent.CollectorService;
 import com.jd.bdp.hydra.agent.RegisterService;
 import com.jd.bdp.hydra.dubbomonitor.HydraService;
 import com.jd.bdp.hydra.dubbomonitor.LeaderService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Date: 13-3-27
@@ -19,13 +18,12 @@ import java.util.Map;
  */
 public class TraceService implements RegisterService, CollectorService {
 
+    public static final String APP_NAME = "applicationName";
+    public static final String SEED = "seed";
     private static final Logger logger = LoggerFactory.getLogger(TraceService.class);
-
     private LeaderService leaderService;
     private HydraService hydraService;
     private Map<String, String> registerInfo;
-    public static final String APP_NAME = "applicationName";
-    public static final String SEED = "seed";
     private boolean isRegister = false;
 
     public boolean isRegister() {
@@ -44,7 +42,7 @@ public class TraceService implements RegisterService, CollectorService {
 
     @Override
     public boolean registerService(String name, List<String> services) {
-       // logger.info(name + " " + services);
+        // logger.info(name + " " + services);
         try {
             this.registerInfo = leaderService.registerClient(name, services);
         } catch (Exception e) {
@@ -68,7 +66,7 @@ public class TraceService implements RegisterService, CollectorService {
             logger.warn("[Hydra] client cannot regist service <" + serviceName + "> into the hydra system");
         }
         if (serviceId != null) {
-            logger.info("[Hydra] Registry ["+serviceName+"] option is ok!");
+            logger.info("[Hydra] Registry [" + serviceName + "] option is ok!");
             registerInfo.put(serviceName, serviceId); //更新本地注册信息
             return true;
         } else

@@ -8,11 +8,10 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  * Time: 下午6:19
  */
 public class StartManager {
-    public static void main(String[] args)  {
+    public static void main(String[] args) {
         try {
-            ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[]{
-                    "classpath*:hydra-manager.xml"
-            });
+            ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(
+                    new String[] { "classpath*:hydra-manager.xml" });
             context.start();
             Thread.sleep(999999999);
         } catch (Exception e) {

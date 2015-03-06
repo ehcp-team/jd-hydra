@@ -15,21 +15,21 @@
   ~    limitations under the License.
   -->
 
-<beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
+       xmlns="http://www.springframework.org/schema/beans"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd"
        default-autowire="byName">
 
     <!-- 选择存储方式为hbase -->
-    <import resource="classpath*:hydra-hbase.xml" />
+    <import resource="classpath*:hydra-hbase.xml"/>
     <!-- 选择存储方式为mysql -->
     <!--<import resource="classpath*:hydra-mysql.xml" />-->
 
     <context:property-placeholder location="classpath:conf.properties"/>
 
-    <bean id="collectorService" class="com.jd.bdp.hydra.collector.service.CollectorSerService" >
+    <bean id="collectorService" class="com.jd.bdp.hydra.collector.service.CollectorSerService">
         <property name="topic" value="${metaq.topic}"></property>
     </bean>
 
@@ -56,10 +56,10 @@
             </bean>
         </constructor-arg>
     </bean>
-    <bean id ="producer" class="com.taobao.metamorphosis.client.producer.SimpleMessageProducer" factory-bean="sessionFactory"
+    <bean id="producer" class="com.taobao.metamorphosis.client.producer.SimpleMessageProducer" factory-bean="sessionFactory"
           factory-method="createProducer">
     </bean>
-    <bean id ="consumer" class="com.taobao.metamorphosis.client.consumer.SimpleMessageConsumer" factory-bean="sessionFactory"
+    <bean id="consumer" class="com.taobao.metamorphosis.client.consumer.SimpleMessageConsumer" factory-bean="sessionFactory"
           factory-method="createConsumer">
         <constructor-arg>
             <bean class="com.taobao.metamorphosis.client.consumer.ConsumerConfig">

@@ -17,28 +17,28 @@ package com.jd.bdp.hydra.dubbo;
 
 import com.alibaba.dubbo.common.Constants;
 import com.alibaba.dubbo.common.extension.Activate;
-import com.alibaba.dubbo.common.extension.ExtensionLoader;
-import com.alibaba.dubbo.container.Container;
-import com.alibaba.dubbo.container.spring.SpringContainer;
 import com.alibaba.dubbo.remoting.TimeoutException;
-import com.alibaba.dubbo.rpc.*;
+import com.alibaba.dubbo.rpc.Filter;
+import com.alibaba.dubbo.rpc.Invocation;
+import com.alibaba.dubbo.rpc.Invoker;
+import com.alibaba.dubbo.rpc.Result;
+import com.alibaba.dubbo.rpc.RpcContext;
+import com.alibaba.dubbo.rpc.RpcException;
+import com.alibaba.dubbo.rpc.RpcInvocation;
 import com.jd.bdp.hydra.BinaryAnnotation;
 import com.jd.bdp.hydra.Endpoint;
 import com.jd.bdp.hydra.Span;
 import com.jd.bdp.hydra.agent.Tracer;
 import com.jd.bdp.hydra.agent.support.TracerUtils;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
-
-import java.io.IOException;
 
 /**
  *
  */
-@Activate(group = {Constants.PROVIDER, Constants.CONSUMER})
+@Activate(group = { Constants.PROVIDER, Constants.CONSUMER })
 public class HydraFilter implements Filter {
 
     private static Logger logger = LoggerFactory.getLogger(HydraFilter.class);
@@ -61,7 +61,7 @@ public class HydraFilter implements Filter {
         Endpoint endpoint = null;
         try {
             endpoint = tracer.newEndPoint();
-//            endpoint.setServiceName(serviceId);
+            //            endpoint.setServiceName(serviceId);
             endpoint.setIp(context.getLocalAddressString());
             endpoint.setPort(context.getLocalPort());
             if (context.isConsumerSide()) { //是否是消费者
@@ -69,7 +69,9 @@ public class HydraFilter implements Filter {
                 if (span1 == null) { //为rootSpan
                     span = tracer.newSpan(context.getMethodName(), endpoint, serviceId);//生成root Span
                 } else {
-                    span = tracer.genSpan(span1.getTraceId(), span1.getId(), tracer.genSpanId(), context.getMethodName(), span1.isSample(), null);
+                    span = tracer
+                            .genSpan(span1.getTraceId(), span1.getId(), tracer.genSpanId(), context.getMethodName(),
+                                    span1.isSample(), null);
                 }
             } else if (context.isProviderSide()) {
                 Long traceId, parentId, spanId;
@@ -83,18 +85,18 @@ public class HydraFilter implements Filter {
             RpcInvocation invocation1 = (RpcInvocation) invocation;
             setAttachment(span, invocation1);//设置需要向下游传递的参数
             Result result = invoker.invoke(invocation);
-            if (result.getException() != null){
+            if (result.getException() != null) {
                 catchException(result.getException(), endpoint);
             }
             return result;
-        }catch (RpcException e) {
-            if (e.getCause() != null && e.getCause() instanceof TimeoutException){
+        } catch (RpcException e) {
+            if (e.getCause() != null && e.getCause() instanceof TimeoutException) {
                 catchTimeoutException(e, endpoint);
-            }else {
+            } else {
                 catchException(e, endpoint);
             }
             throw e;
-        }finally {
+        } finally {
             if (span != null) {
                 long end = System.currentTimeMillis();
                 invokerAfter(invocation, endpoint, span, end, isConsumerSide);//调用后记录annotation
@@ -122,9 +124,11 @@ public class HydraFilter implements Filter {
 
     private void setAttachment(Span span, RpcInvocation invocation) {
         if (span.isSample()) {
-            invocation.setAttachment(TracerUtils.PID, span.getParentId() != null ? String.valueOf(span.getParentId()) : null);
+            invocation.setAttachment(TracerUtils.PID,
+                    span.getParentId() != null ? String.valueOf(span.getParentId()) : null);
             invocation.setAttachment(TracerUtils.SID, span.getId() != null ? String.valueOf(span.getId()) : null);
-            invocation.setAttachment(TracerUtils.TID, span.getTraceId() != null ? String.valueOf(span.getTraceId()) : null);
+            invocation.setAttachment(TracerUtils.TID,
+                    span.getTraceId() != null ? String.valueOf(span.getTraceId()) : null);
         }
     }
 
@@ -160,9 +164,7 @@ public class HydraFilter implements Filter {
     static {
         logger.info("Hydra filter is loading hydra-config file...");
         String resourceName = "classpath*:hydra-config.xml";
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[]{
-                resourceName
-        });
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[] { resourceName });
         logger.info("Hydra config context is starting,config file path is:" + resourceName);
         context.start();
     }

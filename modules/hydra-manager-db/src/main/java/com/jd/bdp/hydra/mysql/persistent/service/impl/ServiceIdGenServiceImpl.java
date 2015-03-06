@@ -27,20 +27,22 @@ import com.jd.bdp.hydra.mysql.persistent.service.ServiceIdGenService;
  */
 public class ServiceIdGenServiceImpl implements ServiceIdGenService {
 
+    private ServiceIdGenMapper serviceIdGenMapper;
+
     @Override
     public synchronized String getNewServiceId() {
         ServiceIdGen serviceIdGen = serviceIdGenMapper.getServiceIdGen();
         int newTrueId;
-        if (serviceIdGen.getMaxId() == serviceIdGen.getIdScope() - 1){
+        if (serviceIdGen.getMaxId() == serviceIdGen.getIdScope() - 1) {
             newTrueId = 0;
-        }else {
+        } else {
             newTrueId = serviceIdGen.getMaxId() + 1;
         }
         int oldHeadId = serviceIdGen.getHead();
         int newHeadId;
-        if (oldHeadId == serviceIdGen.getMaxHead()){
+        if (oldHeadId == serviceIdGen.getMaxHead()) {
             newHeadId = 1;
-        }else {
+        } else {
             newHeadId = oldHeadId + 1;
         }
         int serviceId = newHeadId * serviceIdGen.getIdScope() + newTrueId;
@@ -48,14 +50,12 @@ public class ServiceIdGenServiceImpl implements ServiceIdGenService {
         serviceIdGen.setMaxId(newTrueId);
         serviceIdGenMapper.updateServiceIdGen(serviceIdGen);
         int fullLength = String.valueOf(serviceIdGen.getMaxHead() * serviceIdGen.getIdScope()).length();
-        if (String.valueOf(serviceId).length() < fullLength){
+        if (String.valueOf(serviceId).length() < fullLength) {
             return "0" + String.valueOf(serviceId);//只限head为2位的
-        }else {
+        } else {
             return String.valueOf(serviceId);
         }
     }
-
-    private ServiceIdGenMapper serviceIdGenMapper;
 
     public void setServiceIdGenMapper(ServiceIdGenMapper serviceIdGenMapper) {
         this.serviceIdGenMapper = serviceIdGenMapper;

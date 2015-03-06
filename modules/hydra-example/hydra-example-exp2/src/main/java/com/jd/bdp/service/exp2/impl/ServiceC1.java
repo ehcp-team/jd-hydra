@@ -26,6 +26,8 @@ import com.jd.bdp.service.exp2.inter.InterfaceE;
  */
 public class ServiceC1 implements InterfaceC1 {
 
+    private InterfaceE serviceE;
+
     @Override
     public Object functionC1(Object... objects) {
         String myVoice = new String("C1");
@@ -37,9 +39,6 @@ public class ServiceC1 implements InterfaceC1 {
         returnVoice = "(" + returnVoice + ")";
         return returnVoice;
     }
-
-    private InterfaceE serviceE;
-
 
     public void setServiceE(InterfaceE serviceE) {
         this.serviceE = serviceE;

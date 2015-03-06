@@ -15,18 +15,16 @@
   ~    limitations under the License.
   -->
 
-<beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:context="http://www.springframework.org/schema/context"
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="http://www.springframework.org/schema/beans"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans.xsd
-        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd" default-autowire="byName">
+        http://www.springframework.org/schema/beans/spring-beans.xsd" default-autowire="byName">
 
     <!--数据库层  自己默认提供一个属性配置-->
     <bean id="propertyConfigurer-mysql" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-        <property name="order" value="1" />
+        <property name="order" value="1"/>
         <property name="ignoreUnresolvablePlaceholders" value="true"/>
-        <property name="ignoreResourceNotFound" value="true" />
+        <property name="ignoreResourceNotFound" value="true"/>
         <property name="locations">
             <list>
                 <value>classpath:mysql.properties</value>
@@ -64,6 +62,6 @@
         <property name="sqlSession" ref="sqlSessionTemplateStoreMysql"/>
     </bean>
 
-    <bean id="insertService" class="com.jd.bdp.hydra.mysql.service.impl.InsertServiceImpl" />
-    <bean id="queryService" class="com.jd.bdp.hydra.mysql.service.impl.QueryServiceImpl" />
+    <bean id="insertService" class="com.jd.bdp.hydra.mysql.service.impl.InsertServiceImpl"/>
+    <bean id="queryService" class="com.jd.bdp.hydra.mysql.service.impl.QueryServiceImpl"/>
 </beans>

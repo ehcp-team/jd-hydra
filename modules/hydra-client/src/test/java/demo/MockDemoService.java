@@ -15,9 +15,6 @@
  */
 package demo;
 
-
-import demo.DemoService;
-
 public class MockDemoService implements DemoService {
     @Override
     public String sayHello(String name) {
@@ -26,6 +23,6 @@ public class MockDemoService implements DemoService {
         } catch (InterruptedException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
-        return "hello~"+name;
+        return "hello~" + name;
     }
 }

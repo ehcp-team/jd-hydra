@@ -9,10 +9,10 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  */
 public class CSBootstrap {
 
-    public static void main(String[] strings){
+    public static void main(String[] strings) {
         try {
             ApplicationContext context = new ClassPathXmlApplicationContext("hydra-collector-service.xml");
-            CollectorSerService collectorSerService = (CollectorSerService)context.getBean("collectorService");
+            CollectorSerService collectorSerService = (CollectorSerService) context.getBean("collectorService");
             collectorSerService.subscribe();
         } catch (Exception e) {
             e.printStackTrace();

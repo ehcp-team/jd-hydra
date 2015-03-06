@@ -7,24 +7,24 @@ import com.jd.bdp.hydra.agent.Tracer;
  * Date: 13-5-29
  * Time: 上午9:50
  */
-public class TraceRunnable implements Runnable{
+public class TraceRunnable implements Runnable {
     private final Span parent;
     private final Runnable runnable;
     private Tracer tracer = Tracer.getTracer();
 
-
-    public TraceRunnable(Runnable r){
+    public TraceRunnable(Runnable r) {
         this.parent = tracer.getParentSpan();
         this.runnable = r;
     }
 
-    public TraceRunnable(Runnable r, Span p){
+    public TraceRunnable(Runnable r, Span p) {
         this.runnable = r;
         this.parent = p;
     }
+
     @Override
     public void run() {
-        if(parent != null){
+        if (parent != null) {
             tracer.setParentSpan(parent);
         }
         runnable.run();

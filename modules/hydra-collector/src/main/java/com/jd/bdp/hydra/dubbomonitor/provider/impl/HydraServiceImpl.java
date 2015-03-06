@@ -12,19 +12,23 @@ import com.taobao.metamorphosis.client.producer.MessageProducer;
 import com.taobao.metamorphosis.client.producer.SendResult;
 import com.taobao.metamorphosis.exception.MetaClientException;
 import com.taobao.metamorphosis.utils.ZkUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.Properties;
-import java.util.concurrent.atomic.AtomicLong;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class HydraServiceImpl implements HydraService {
     private static final Logger log = LoggerFactory.getLogger(HydraServiceImpl.class);
+    private final int bufferSize = 1024;
     private MessageProducer messageProducer = null;
     private String topic;
-    private final int bufferSize = 1024;
     private Properties config = loadConfig();
+
+    public HydraServiceImpl() throws Exception {
+        createMessageProducer();
+    }
 
     private void createMessageProducer() throws Exception {
         final MetaClientConfig metaClientConfig = new MetaClientConfig();
@@ -48,18 +52,14 @@ public class HydraServiceImpl implements HydraService {
         return HydraDubbeConfig.loadConfig("metaq.prop");
     }
 
-    public HydraServiceImpl() throws Exception {
-        createMessageProducer();
-    }
-
     @Override
     public boolean push(List<Span> span) {
         boolean rs = false;
-        if(span != null){
+        if (span != null) {
             byte[] b = PB.toPBBytes(span);
             try {
-                SendResult sendResult = messageProducer.sendMessage(new Message(topic,b));
-                if (sendResult.isSuccess()){
+                SendResult sendResult = messageProducer.sendMessage(new Message(topic, b));
+                if (sendResult.isSuccess()) {
                     rs = true;
                 }
             } catch (MetaClientException e) {

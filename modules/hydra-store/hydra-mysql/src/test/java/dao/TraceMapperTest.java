@@ -20,12 +20,11 @@ import com.jd.bdp.hydra.mysql.persistent.dao.AnnotationMapper;
 import com.jd.bdp.hydra.mysql.persistent.dao.TraceMapper;
 import com.jd.bdp.hydra.mysql.persistent.entity.Absannotation;
 import com.jd.bdp.hydra.mysql.persistent.entity.Trace;
-import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.AbstractDependencyInjectionSpringContextTests;
 
-import java.util.Date;
 import java.util.List;
+
+import org.junit.Test;
+import org.springframework.test.AbstractDependencyInjectionSpringContextTests;
 
 /**
  * User: biandi
@@ -34,14 +33,17 @@ import java.util.List;
  */
 public class TraceMapperTest extends AbstractDependencyInjectionSpringContextTests {
 
+    private TraceMapper traceMapper;
+    private AnnotationMapper annotationMapper;
+
     @Override
     protected String[] getConfigLocations() {
-        String[] location = {"classpath:hydra-mysql.xml"};
+        String[] location = { "classpath:hydra-mysql.xml" };
         return location;
     }
 
     @Test
-    public void testFindTraces(){
+    public void testFindTraces() {
         try {
             traceMapper.deleteAllTraces();
             annotationMapper.deleteAllAnnotation();
@@ -51,10 +53,10 @@ public class TraceMapperTest extends AbstractDependencyInjectionSpringContextTes
             for (Trace trace : list) {
                 assertEquals("161148", trace.getService());
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             assertTrue(false);
-        }finally {
+        } finally {
             traceMapper.deleteAllTraces();
             annotationMapper.deleteAllAnnotation();
         }
@@ -62,47 +64,47 @@ public class TraceMapperTest extends AbstractDependencyInjectionSpringContextTes
     }
 
     @Test
-    public void testFindTracesByDuration(){
+    public void testFindTracesByDuration() {
         try {
             traceMapper.deleteAllTraces();
             annotationMapper.deleteAllAnnotation();
             prepareTestTraces();
             List<Trace> list = traceMapper.findTracesByDuration("161148", 1368002575499L, 10, 20, 2);
             assertEquals(2, list.size());
-            for(Trace trace : list){
+            for (Trace trace : list) {
                 assertEquals("161148", trace.getService());
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             assertTrue(false);
-        }finally {
+        } finally {
             traceMapper.deleteAllTraces();
             annotationMapper.deleteAllAnnotation();
         }
     }
 
     @Test
-    public void testFindTracesEx(){
+    public void testFindTracesEx() {
         try {
             traceMapper.deleteAllTraces();
             annotationMapper.deleteAllAnnotation();
             prepareTestTraces();
             List<Trace> list = traceMapper.findTracesEx("161148", 1368002575495L, 3);
             assertEquals(1, list.size());
-            for(Trace trace : list){
+            for (Trace trace : list) {
                 assertEquals("161148", trace.getService());
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             assertTrue(false);
-        }finally {
+        } finally {
             traceMapper.deleteAllTraces();
             annotationMapper.deleteAllAnnotation();
         }
 
     }
 
-    private void prepareTestTraces(){
+    private void prepareTestTraces() {
         Trace t1 = new Trace();
         t1.setTraceId(1368002575499L);
         t1.setDuration(10);
@@ -149,14 +151,9 @@ public class TraceMapperTest extends AbstractDependencyInjectionSpringContextTes
         annotationMapper.addAnnotation(annotation);
     }
 
-    private TraceMapper traceMapper;
-
-    private AnnotationMapper annotationMapper;
-
     public void setTraceMapper(TraceMapper traceMapper) {
         this.traceMapper = traceMapper;
     }
-
 
     public void setAnnotationMapper(AnnotationMapper annotationMapper) {
         this.annotationMapper = annotationMapper;

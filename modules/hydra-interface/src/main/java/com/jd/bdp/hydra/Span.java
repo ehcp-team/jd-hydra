@@ -18,6 +18,11 @@ public class Span implements Serializable {
     private List<BinaryAnnotation> binaryAnnotations;
     private boolean isSample;
 
+    public Span() {
+        annotations = new ArrayList<Annotation>();
+        binaryAnnotations = new ArrayList<BinaryAnnotation>();
+    }
+
     public boolean isSample() {
         return isSample;
     }
@@ -26,20 +31,13 @@ public class Span implements Serializable {
         isSample = sample;
     }
 
-    public Span(){
-        annotations = new ArrayList<Annotation>();
-        binaryAnnotations = new ArrayList<BinaryAnnotation>();
-    }
-
-
-    public void addAnnotation(Annotation a){
+    public void addAnnotation(Annotation a) {
         annotations.add(a);
     }
 
-    public void addBinaryAnnotation(BinaryAnnotation a){
+    public void addBinaryAnnotation(BinaryAnnotation a) {
         binaryAnnotations.add(a);
     }
-
 
     public Long getTraceId() {
         return traceId;

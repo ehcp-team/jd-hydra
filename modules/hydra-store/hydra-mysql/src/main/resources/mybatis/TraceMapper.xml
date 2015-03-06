@@ -20,7 +20,7 @@
 <mapper namespace="com.jd.bdp.hydra.mysql.persistent.dao.TraceMapper">
 
     <resultMap id="TraceResultMap" type="TraceEntity">
-        <result property="annValue" column="value" />
+        <result property="annValue" column="value"/>
     </resultMap>
 
     <select id="findTraces" parameterType="map" resultMap="TraceResultMap">
@@ -28,14 +28,16 @@
     </select>
 
     <select id="findTracesByDuration" parameterType="map" resultMap="TraceResultMap">
-        SELECT * FROM trace WHERE service=#{serviceId} and <![CDATA[ time>= #{startTime} and duration <= #{durationMax} and duration >= #{durationMin}]]> limit #{num}
+        SELECT * FROM trace WHERE service=#{serviceId} and
+        <![CDATA[ time>= #{startTime} and duration <= #{durationMax} and duration >= #{durationMin}]]> limit #{num}
     </select>
 
     <select id="findTracesEx" parameterType="map" resultMap="TraceResultMap">
-         select a.*, t.time from annotation a left join trace t on a.traceId=t.traceId and <![CDATA[ t.time>= #{startTime}]]> where a.service=#{serviceId} group by spanId limit #{num}
+        select a.*, t.time from annotation a left join trace t on a.traceId=t.traceId and
+        <![CDATA[ t.time>= #{startTime}]]> where a.service=#{serviceId} group by spanId limit #{num}
     </select>
 
-    <insert id="addTrace" parameterType="TraceEntity" >
+    <insert id="addTrace" parameterType="TraceEntity">
         INSERT INTO trace (time,traceId,duration,service)
         VALUES(#{time}, #{traceId},#{duration},#{service})
     </insert>

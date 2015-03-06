@@ -21,13 +21,14 @@ import com.jd.bdp.hydra.Annotation;
 import com.jd.bdp.hydra.BinaryAnnotation;
 import com.jd.bdp.hydra.Span;
 import com.jd.bdp.hydra.store.inter.InsertService;
-import org.apache.hadoop.hbase.client.HTableInterface;
-import org.apache.hadoop.hbase.client.Put;
-import org.apache.hadoop.hbase.util.Bytes;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.apache.hadoop.hbase.client.HTableInterface;
+import org.apache.hadoop.hbase.client.Put;
+import org.apache.hadoop.hbase.util.Bytes;
 
 /*
 trace:
@@ -56,32 +57,31 @@ Qualifier:{
  */
 public class InsertServiceImpl extends HbaseUtils implements InsertService {
 
-//    public void createTable() {
-//        try {
-//            HBaseAdmin hBaseAdmin = new HBaseAdmin(conf);
-//            if (!hBaseAdmin.tableExists(duration_index)) {
-//                HTableDescriptor hTableDescriptor = new HTableDescriptor(duration_index);
-//                hTableDescriptor.addFamily(new HColumnDescriptor(duration_index_family_column));
-//                hBaseAdmin.createTable(hTableDescriptor);
-//            }
-//            if (!hBaseAdmin.tableExists(TR_T)) {
-//                HTableDescriptor hTableDescriptor = new HTableDescriptor(TR_T);
-//                hTableDescriptor.addFamily(new HColumnDescriptor());
-//                hBaseAdmin.createTable(hTableDescriptor);
-//            }
-//            if (!hBaseAdmin.tableExists(ann_index)) {
-//                HTableDescriptor hTableDescriptor = new HTableDescriptor(trace_family_column);
-//                hTableDescriptor.addFamily(new HColumnDescriptor(ann_index_family_column));
-//                hBaseAdmin.createTable(hTableDescriptor);
-//            }
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//    }
-
+    //    public void createTable() {
+    //        try {
+    //            HBaseAdmin hBaseAdmin = new HBaseAdmin(conf);
+    //            if (!hBaseAdmin.tableExists(duration_index)) {
+    //                HTableDescriptor hTableDescriptor = new HTableDescriptor(duration_index);
+    //                hTableDescriptor.addFamily(new HColumnDescriptor(duration_index_family_column));
+    //                hBaseAdmin.createTable(hTableDescriptor);
+    //            }
+    //            if (!hBaseAdmin.tableExists(TR_T)) {
+    //                HTableDescriptor hTableDescriptor = new HTableDescriptor(TR_T);
+    //                hTableDescriptor.addFamily(new HColumnDescriptor());
+    //                hBaseAdmin.createTable(hTableDescriptor);
+    //            }
+    //            if (!hBaseAdmin.tableExists(ann_index)) {
+    //                HTableDescriptor hTableDescriptor = new HTableDescriptor(trace_family_column);
+    //                hTableDescriptor.addFamily(new HColumnDescriptor(ann_index_family_column));
+    //                hBaseAdmin.createTable(hTableDescriptor);
+    //            }
+    //        } catch (IOException e) {
+    //            e.printStackTrace();
+    //        }
+    //    }
 
     @Override
-    public void addSpan(Span span){
+    public void addSpan(Span span) {
         String rowkey = String.valueOf(span.getTraceId());
         Put put = new Put(rowkey.getBytes());
         String jsonValue = JSON.toJSONString(span);
@@ -118,7 +118,8 @@ public class InsertServiceImpl extends HbaseUtils implements InsertService {
             for (BinaryAnnotation b : span.getBinaryAnnotations()) {
                 String rowkey = span.getServiceId() + ":" + baTimeStamp + ":" + b.getKey();
                 Put put = new Put(rowkey.getBytes());
-                put.add(ann_index_family_column.getBytes(), long2ByteArray(span.getTraceId()), Bytes.toBytes(b.getValue()));
+                put.add(ann_index_family_column.getBytes(), long2ByteArray(span.getTraceId()),
+                        Bytes.toBytes(b.getValue()));
                 putlist.add(put);
             }
             HTableInterface htable = null;
@@ -166,7 +167,8 @@ public class InsertServiceImpl extends HbaseUtils implements InsertService {
                 //rowkey:serviceId:csTime
                 //每列的timestamp为duration
                 //每列列名为traceId，值为1（用来区分1ms内的跟踪）
-                put.add(duration_index_family_column.getBytes(), long2ByteArray(span.getTraceId()), duration, "1".getBytes());
+                put.add(duration_index_family_column.getBytes(), long2ByteArray(span.getTraceId()), duration,
+                        "1".getBytes());
                 HTableInterface htable = null;
                 try {
                     htable = POOL.getTable(duration_index);
@@ -191,6 +193,5 @@ public class InsertServiceImpl extends HbaseUtils implements InsertService {
     private boolean isRootSpan(Span span) {
         return span.getParentId() == null;
     }
-
 
 }

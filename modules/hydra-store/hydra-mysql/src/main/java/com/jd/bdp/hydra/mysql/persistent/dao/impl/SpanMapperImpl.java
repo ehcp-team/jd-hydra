@@ -18,27 +18,28 @@ package com.jd.bdp.hydra.mysql.persistent.dao.impl;
 
 import com.jd.bdp.hydra.Span;
 import com.jd.bdp.hydra.mysql.persistent.dao.SpanMapper;
-import org.mybatis.spring.SqlSessionTemplate;
 
 import java.util.List;
+
+import org.mybatis.spring.SqlSessionTemplate;
 
 /**
  * User: biandi
  * Date: 13-5-8
  * Time: 下午4:54
  */
-public class SpanMapperImpl implements SpanMapper{
+public class SpanMapperImpl implements SpanMapper {
 
     private SqlSessionTemplate sqlSession;
 
     @Override
     public void addSpan(Span span) {
-        sqlSession.insert("addSpan",span);
+        sqlSession.insert("addSpan", span);
     }
 
     @Override
     public List<Span> findSpanByTraceId(Long traceId) {
-        return (List<Span>)sqlSession.selectList("findSpanByTraceId", traceId);
+        return (List<Span>) sqlSession.selectList("findSpanByTraceId", traceId);
     }
 
     @Override

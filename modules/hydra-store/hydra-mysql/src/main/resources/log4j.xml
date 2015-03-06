@@ -7,8 +7,8 @@
         </layout>
     </appender>
     <category name="org.apache.ibatis">
-        <level value="DEBUG" />
-        <appender-ref ref="CONSOLE" />
+        <level value="DEBUG"/>
+        <appender-ref ref="CONSOLE"/>
     </category>
     <root>
         <level value="INFO"/>

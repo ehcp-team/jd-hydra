@@ -18,11 +18,12 @@ package com.jd.bdp.hydra.mysql.persistent.dao.impl;
 
 import com.jd.bdp.hydra.mysql.persistent.dao.ServiceMapper;
 import com.jd.bdp.hydra.mysql.persistent.entity.ServicePara;
-import org.mybatis.spring.SqlSessionTemplate;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.mybatis.spring.SqlSessionTemplate;
 
 /**
  * User: xiangkui
@@ -45,20 +46,19 @@ public class ServiceMapperImpl implements ServiceMapper {
         return (ServicePara) sqlSession.selectOne("getServiceByName", map);
     }
 
-
     @Override
     public void deleteService(ServicePara servicePara) {
-        sqlSession.delete("deleteService",servicePara);
+        sqlSession.delete("deleteService", servicePara);
     }
 
     @Override
     public void updateService(ServicePara servicePara) {
-        sqlSession.update("updateService",servicePara);
+        sqlSession.update("updateService", servicePara);
     }
 
     @Override
     public ServicePara getOneService(String id) {
-        return (ServicePara) sqlSession.selectOne("getServiceById",id);
+        return (ServicePara) sqlSession.selectOne("getServiceById", id);
     }
 
     @Override
@@ -68,7 +68,7 @@ public class ServiceMapperImpl implements ServiceMapper {
 
     @Override
     public List<ServicePara> get(Integer appId) {
-        return (List<ServicePara>)sqlSession.selectList("getServiceByAppId", appId);
+        return (List<ServicePara>) sqlSession.selectList("getServiceByAppId", appId);
     }
 
     public void setSqlSession(SqlSessionTemplate sqlSession) {

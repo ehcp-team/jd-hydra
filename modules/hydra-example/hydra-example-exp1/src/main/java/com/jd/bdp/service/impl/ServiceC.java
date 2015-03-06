@@ -1,6 +1,5 @@
 package com.jd.bdp.service.impl;
 
-
 import com.jd.bdp.service.impl.support.AbstractService;
 import com.jd.bdp.service.inter.InterfaceC;
 
@@ -12,14 +11,14 @@ import com.jd.bdp.service.inter.InterfaceC;
 public class ServiceC extends AbstractService implements InterfaceC {
     /**
      * 绑定一个配置文件 ，用于启动服务
+     *
      * @return
      */
     protected String[] getConfigLocations() {
-        String[] location = {
-                "classpath*:dubbo-service-C.xml"
-        };
+        String[] location = { "classpath*:dubbo-service-C.xml" };
         return location;
     }
+
     @Override
     public Object functionC(Object... objects) {
         return "C";

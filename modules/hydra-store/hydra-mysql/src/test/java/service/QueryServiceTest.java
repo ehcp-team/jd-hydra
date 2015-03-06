@@ -22,6 +22,7 @@ import com.jd.bdp.hydra.mysql.persistent.dao.AnnotationMapper;
 import com.jd.bdp.hydra.mysql.persistent.dao.SpanMapper;
 import com.jd.bdp.hydra.mysql.persistent.entity.Absannotation;
 import com.jd.bdp.hydra.store.inter.QueryService;
+
 import org.junit.Test;
 import org.springframework.test.AbstractDependencyInjectionSpringContextTests;
 
@@ -32,14 +33,18 @@ import org.springframework.test.AbstractDependencyInjectionSpringContextTests;
  */
 public class QueryServiceTest extends AbstractDependencyInjectionSpringContextTests {
 
+    private QueryService queryService;
+    private SpanMapper spanMapper;
+    private AnnotationMapper annotationMapper;
+
     @Override
     protected String[] getConfigLocations() {
-        String[] location = {"classpath:hydra-mysql.xml"};
+        String[] location = { "classpath:hydra-mysql.xml" };
         return location;
     }
 
     @Test
-    public void testGetTraceInfo(){
+    public void testGetTraceInfo() {
         try {
             spanMapper.deleteAllSpans();
             annotationMapper.deleteAllAnnotation();
@@ -48,7 +53,7 @@ public class QueryServiceTest extends AbstractDependencyInjectionSpringContextTe
             assertEquals("1368002575495", obj.getString("traceId"));
             assertEquals("1368002575495", obj.getString("minTimestamp"));
             assertEquals("1368002575590", obj.getString("maxTimestamp"));
-            assertTrue( obj.getBoolean("available"));
+            assertTrue(obj.getBoolean("available"));
             assertNotNull(obj.get("rootSpan"));
             JSONObject rootSpan = obj.getJSONObject("rootSpan");
             assertEquals("1368002575600", rootSpan.getString("id"));
@@ -57,11 +62,11 @@ public class QueryServiceTest extends AbstractDependencyInjectionSpringContextTe
             assertEquals(2, rootSpan.getJSONArray("children").size());
             JSONObject span1 = null;
             JSONObject span2 = null;
-            for(Object temp : rootSpan.getJSONArray("children")){
-                if (((JSONObject)temp).getString("id").equals("1368002575601")){
+            for (Object temp : rootSpan.getJSONArray("children")) {
+                if (((JSONObject) temp).getString("id").equals("1368002575601")) {
                     span1 = (JSONObject) temp;
                 }
-                if (((JSONObject)temp).getString("id").equals("1368002575602")){
+                if (((JSONObject) temp).getString("id").equals("1368002575602")) {
                     span2 = (JSONObject) temp;
                 }
             }
@@ -75,10 +80,10 @@ public class QueryServiceTest extends AbstractDependencyInjectionSpringContextTe
             JSONObject e = span2.getJSONObject("exception");
             assertEquals("dubbo.exception", e.getString("key"));
             assertEquals("abc", e.getString("value"));
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             assertTrue(false);
-        }finally {
+        } finally {
             spanMapper.deleteAllSpans();
             annotationMapper.deleteAllAnnotation();
         }
@@ -109,7 +114,6 @@ public class QueryServiceTest extends AbstractDependencyInjectionSpringContextTe
         spanMapper.addSpan(s2);
         spanMapper.addSpan(s3);
 
-
         Absannotation ann1 = new Absannotation();
         ann1.setKey("cs");
         ann1.setTimestamp(1368002575495L);
@@ -134,20 +138,17 @@ public class QueryServiceTest extends AbstractDependencyInjectionSpringContextTe
         ann4.setSpanId(1368002575600L);
         ann4.setTraceId(1368002575495L);
 
-
         Absannotation ann5 = new Absannotation();
         ann5.setKey("cs");
         ann5.setTimestamp(1368002575520L);
         ann5.setSpanId(1368002575601L);
         ann5.setTraceId(1368002575495L);
 
-
         Absannotation ann6 = new Absannotation();
         ann6.setKey("cr");
         ann6.setTimestamp(1368002575550L);
         ann6.setSpanId(1368002575601L);
         ann6.setTraceId(1368002575495L);
-
 
         Absannotation ann7 = new Absannotation();
         ann7.setKey("sr");
@@ -205,10 +206,6 @@ public class QueryServiceTest extends AbstractDependencyInjectionSpringContextTe
         annotationMapper.addAnnotation(ann12);
         annotationMapper.addAnnotation(annEx);
     }
-
-    private QueryService queryService;
-    private SpanMapper spanMapper;
-    private AnnotationMapper annotationMapper;
 
     public void setQueryService(QueryService queryService) {
         this.queryService = queryService;

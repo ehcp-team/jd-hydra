@@ -29,6 +29,8 @@ import java.util.List;
  */
 public class AppServiceImpl implements AppService {
 
+    private AppMapper appMapper;
+
     @Override
     public synchronized Integer getAppId(String appName) {
         AppPara app = appMapper.getApp(appName);
@@ -46,9 +48,6 @@ public class AppServiceImpl implements AppService {
     public List<AppPara> getAll() {
         return appMapper.getAll();
     }
-
-
-    private AppMapper appMapper;
 
     public void setAppMapper(AppMapper appMapper) {
         this.appMapper = appMapper;

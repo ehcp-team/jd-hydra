@@ -20,12 +20,12 @@
 <mapper namespace="com.jd.bdp.hydra.mysql.persistent.dao.SpanMapper">
 
     <resultMap id="SpanResultMap" type="SpanEntity">
-        <result property="serviceId" column="service" />
-        <result property="spanName" column="name" />
-        <result property="id" column="spanId" />
+        <result property="serviceId" column="service"/>
+        <result property="spanName" column="name"/>
+        <result property="id" column="spanId"/>
     </resultMap>
 
-    <insert id="addSpan" parameterType="SpanEntity" >
+    <insert id="addSpan" parameterType="SpanEntity">
         INSERT INTO span (name,traceId,parentId,spanId,service)
         VALUES(#{spanName},#{traceId},#{parentId},#{id},#{serviceId})
     </insert>

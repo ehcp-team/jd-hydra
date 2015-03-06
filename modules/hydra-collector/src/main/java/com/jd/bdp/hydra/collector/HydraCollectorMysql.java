@@ -9,9 +9,8 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  */
 public class HydraCollectorMysql {
     public static void main(String[] strings) {
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[]{
-                "classpath*:dubbo-hydra-provider-mysql.xml"
-        });
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(
+                new String[] { "classpath*:dubbo-hydra-provider-mysql.xml" });
         context.start();
         while (true) {
             try {

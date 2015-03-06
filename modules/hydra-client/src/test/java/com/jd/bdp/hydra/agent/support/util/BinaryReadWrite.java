@@ -15,21 +15,25 @@ import java.io.IOException;
 public class BinaryReadWrite {
     private DataInputStream dis = null;
     private DataOutputStream dos = null;
-    private String s_FilePath = System.getProperty("user.home")+"/.hydra"+"/TraceID.dat";
+    private String s_FilePath = System.getProperty("user.home") + "/.hydra" + "/TraceID.dat";
 
     public BinaryReadWrite() {
         // TODO Auto-generated constructor stub
         init();
     }
 
+    public static void main(String[] args) throws IOException {
+        BinaryReadWrite bin = new BinaryReadWrite();
+    }
+
     private void init() {
         try {
-            File fp=new File(s_FilePath);
-            if(!fp.exists()){
+            File fp = new File(s_FilePath);
+            if (!fp.exists()) {
                 fp.mkdirs();
             }
             if (fp.exists()) {
-                fp.renameTo(new File(s_FilePath+"."+System.currentTimeMillis()));
+                fp.renameTo(new File(s_FilePath + "." + System.currentTimeMillis()));
                 fp.delete();
             }
             if (!fp.exists()) {
@@ -51,13 +55,15 @@ public class BinaryReadWrite {
             e.printStackTrace();
         }
     }
-    public void flushWrite(){
+
+    public void flushWrite() {
         try {
             dos.flush();
         } catch (IOException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
     }
+
     public long readLong() {
         try {
             if (dis != null) {
@@ -69,16 +75,11 @@ public class BinaryReadWrite {
         return 0;
     }
 
-
     public String getS_FilePath() {
         return s_FilePath;
     }
 
     public void setS_FilePath(String s_FilePath) {
         this.s_FilePath = s_FilePath;
-    }
-
-    public static void main(String[] args) throws IOException {
-        BinaryReadWrite bin = new BinaryReadWrite();
     }
 }

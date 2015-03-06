@@ -22,6 +22,7 @@ import com.jd.bdp.service.inter.InterfaceA;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.CyclicBarrier;
+
 /**
  * User: xiangkui
  * Date: 13-4-9
@@ -29,7 +30,8 @@ import java.util.concurrent.CyclicBarrier;
  */
 public class DemoRunnable extends AbstractClientRunnable {
 
-    public DemoRunnable(String targetIP, int targetPort, int clientNums, int rpcTimeout, CyclicBarrier barrier, CountDownLatch latch, long startTime, long endTime) {
+    public DemoRunnable(String targetIP, int targetPort, int clientNums, int rpcTimeout, CyclicBarrier barrier,
+            CountDownLatch latch, long startTime, long endTime) {
         super(targetIP, targetPort, clientNums, rpcTimeout, barrier, latch, startTime, endTime);
     }
 

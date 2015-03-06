@@ -11,7 +11,7 @@ import com.jd.bdp.service.inter.support.Service;
 /**
  * 某个服务
  */
-public interface InterfaceB  extends Service {
+public interface InterfaceB extends Service {
 
     Object functionB(Object... objects);
 }

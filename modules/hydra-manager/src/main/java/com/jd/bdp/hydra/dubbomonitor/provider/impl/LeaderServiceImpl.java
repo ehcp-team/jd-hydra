@@ -16,9 +16,13 @@ import java.util.Map;
  */
 public class LeaderServiceImpl implements LeaderService {
 
+    private ServiceService serviceService;
+    private SeedService seedService;
+    private AppService appService;
+
     @Override
     public Map<String, String> registerClient(String name, List<String> services) {
-        long startTime=System.currentTimeMillis();
+        long startTime = System.currentTimeMillis();
         HashMap<String, String> map = new HashMap<String, String>();
         map.put("seed", seedService.getSeed().toString());
         map.put(name, appService.getAppId(name).toString());
@@ -32,11 +36,6 @@ public class LeaderServiceImpl implements LeaderService {
     public String registerClient(String name, String service) {
         return serviceService.getServiceId(service, name).toString();
     }
-
-
-    private ServiceService serviceService;
-    private SeedService seedService;
-    private AppService appService;
 
     public void setServiceService(ServiceService serviceService) {
         this.serviceService = serviceService;

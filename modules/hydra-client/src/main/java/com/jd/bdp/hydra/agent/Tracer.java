@@ -6,32 +6,40 @@ import com.jd.bdp.hydra.Annotation;
 import com.jd.bdp.hydra.BinaryAnnotation;
 import com.jd.bdp.hydra.Endpoint;
 import com.jd.bdp.hydra.Span;
-import com.jd.bdp.hydra.agent.support.*;
-import com.jd.bdp.hydra.dubbomonitor.HydraService;
-import com.jd.bdp.hydra.dubbomonitor.LeaderService;
+import com.jd.bdp.hydra.agent.support.SampleImp;
+import com.jd.bdp.hydra.agent.support.TraceService;
 
 /**
  * Date: 13-3-19
  * Time: 下午4:14
  * 系统跟踪类(单例)
-  */
+ */
 
 public class Tracer {
 
     private static final Logger logger = LoggerFactory.getLogger(Tracer.class);
 
     private static Tracer tracer = null;
-
+    TraceService traceService;
     private Sampler sampler = new SampleImp();
-
     private SyncTransfer transfer = null;
-
     //传递parentSpan
     private ThreadLocal<Span> spanThreadLocal = new ThreadLocal<Span>();
 
-    TraceService traceService;
-
     private Tracer() {
+    }
+
+    public static Tracer getTracer() {
+        return TraceHolder.instance;
+    }
+
+    //启动后台消息发送线程
+    public static void startTraceWork() {
+        try {
+            getTracer().start();
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+        }
     }
 
     public void removeParentSpan() {
@@ -67,14 +75,14 @@ public class Tracer {
         span.setSpanName(spanname);
         span.setServiceId(serviceId);
         span.setSample(s);
-//        if (s) {//应用名写入
-//            BinaryAnnotation appname = new BinaryAnnotation();
-//            appname.setKey("dubbo.applicationName");
-//            appname.setValue(transfer.appName().getBytes());
-//            appname.setType("string");
-//            appname.setHost(endpoint);
-//            span.addBinaryAnnotation(appname);
-//        }
+        //        if (s) {//应用名写入
+        //            BinaryAnnotation appname = new BinaryAnnotation();
+        //            appname.setKey("dubbo.applicationName");
+        //            appname.setValue(transfer.appName().getBytes());
+        //            appname.setType("string");
+        //            appname.setHost(endpoint);
+        //            span.addBinaryAnnotation(appname);
+        //        }
         return span;
     }
 
@@ -82,26 +90,9 @@ public class Tracer {
         return new Endpoint();
     }
 
-    private static class  TraceHolder{
-        static Tracer instance=new Tracer();
-    }
-    public static Tracer getTracer() {
-       return TraceHolder.instance;
-    }
-
     public void start() throws Exception {
         transfer.start();
     }
-
-    //启动后台消息发送线程
-    public static void startTraceWork() {
-        try {
-            getTracer().start();
-        } catch (Exception e) {
-            logger.error(e.getMessage());
-        }
-    }
-
 
     public boolean isSample() {
         return sampler.isSample() && (transfer != null && transfer.isReady());
@@ -122,7 +113,6 @@ public class Tracer {
         annotation.setHost(endpoint);
         span.addAnnotation(annotation);
     }
-
 
     //构件cr annotation
     public void clientReceiveRecord(Span span, Endpoint endpoint, long end) {
@@ -176,6 +166,10 @@ public class Tracer {
 
     public void setTransfer(SyncTransfer transfer) {
         this.transfer = transfer;
+    }
+
+    private static class TraceHolder {
+        static Tracer instance = new Tracer();
     }
 }
 

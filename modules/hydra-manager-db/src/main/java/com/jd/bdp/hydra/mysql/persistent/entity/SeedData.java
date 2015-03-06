@@ -47,13 +47,17 @@ public class SeedData implements Serializable {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof SeedData)) return false;
+        if (this == o)
+            return true;
+        if (!(o instanceof SeedData))
+            return false;
 
         SeedData seedData = (SeedData) o;
 
-        if (!id.equals(seedData.id)) return false;
-        if (!value.equals(seedData.value)) return false;
+        if (!id.equals(seedData.id))
+            return false;
+        if (!value.equals(seedData.value))
+            return false;
 
         return true;
     }

@@ -1,8 +1,12 @@
 package com.jd.bdp.hydra.jmetertest.QueryService;
+
 import com.alibaba.fastjson.JSONArray;
 import com.jd.bdp.hydra.jmetertest.support.AbstractJmeterDBContext;
 import com.jd.bdp.hydra.jmetertest.support.HbaseDBContext;
 import com.jd.bdp.hydra.store.inter.QueryService;
+
+import java.util.Date;
+
 import org.apache.jmeter.config.Arguments;
 import org.apache.jmeter.protocol.java.sampler.AbstractJavaSamplerClient;
 import org.apache.jmeter.protocol.java.sampler.JavaSamplerContext;
@@ -11,16 +15,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import java.util.Date;
-
 /**
  * User: xiangkui
  * Date: 13-5-14
  * Time: 下午6:43
  */
 public class JMeterGetTracesByEx extends AbstractJavaSamplerClient {
-    AbstractJmeterDBContext dbContext;
     private static Logger logger = LoggerFactory.getLogger(JMeterGetTracesByEx.class);
+    AbstractJmeterDBContext dbContext;
     private QueryService queryService;
     //arguments
     private String serviceId;
@@ -28,7 +30,7 @@ public class JMeterGetTracesByEx extends AbstractJavaSamplerClient {
     private int sum;
 
     public void setupTest(JavaSamplerContext arg) {
-        dbContext=new HbaseDBContext();
+        dbContext = new HbaseDBContext();
         String[] configs = dbContext.getConfigLocations();
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(configs);
         context.start();
@@ -54,7 +56,7 @@ public class JMeterGetTracesByEx extends AbstractJavaSamplerClient {
     @Override
     public SampleResult runTest(JavaSamplerContext javaSamplerContext) {
         SampleResult sr = new SampleResult();
-        sr.setSampleLabel("JMeterGetTracesByEx"+serviceId);
+        sr.setSampleLabel("JMeterGetTracesByEx" + serviceId);
         sr.sampleStart();
         try {
             JSONArray jsonArray = queryService.getTracesByEx(serviceId, startTime, sum);
@@ -70,9 +72,9 @@ public class JMeterGetTracesByEx extends AbstractJavaSamplerClient {
         }
 
     }
+
     // 结束方法，实际运行时每个线程仅执行一次，在测试方法运行结束后执行，类似于LoadRunner中的end方法
     public void teardownTest(JavaSamplerContext arg0) {
     }
-
 
 }

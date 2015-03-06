@@ -10,8 +10,6 @@ import com.jd.bdp.hydra.mysql.persistent.entity.Absannotation;
 import com.jd.bdp.hydra.mysql.persistent.entity.Trace;
 import com.jd.bdp.hydra.store.inter.InsertService;
 
-import java.io.IOException;
-
 /**
  * User: biandi
  * Date: 13-5-9
@@ -19,10 +17,14 @@ import java.io.IOException;
  */
 public class InsertServiceImpl implements InsertService {
 
+    private AnnotationMapper annotationMapper;
+    private SpanMapper spanMapper;
+    private TraceMapper traceMapper;
+
     @Override
     public void addSpan(Span span) {
-        if (span.getServiceId() != null){
-            if (!Utils.isRoot(span) || Utils.isRoot(span) && Utils.isTopAnntation(span)){
+        if (span.getServiceId() != null) {
+            if (!Utils.isRoot(span) || Utils.isRoot(span) && Utils.isTopAnntation(span)) {
                 spanMapper.addSpan(span);
             }
         }
@@ -43,20 +45,17 @@ public class InsertServiceImpl implements InsertService {
     }
 
     @Override
-    public void addAnnotation(Span span){
-        for(Annotation a : span.getAnnotations()){
+    public void addAnnotation(Span span) {
+        for (Annotation a : span.getAnnotations()) {
             Absannotation aa = new Absannotation(a, span);
             annotationMapper.addAnnotation(aa);
         }
 
-        for(BinaryAnnotation b : span.getBinaryAnnotations()){
+        for (BinaryAnnotation b : span.getBinaryAnnotations()) {
             Absannotation bb = new Absannotation(b, span);
             annotationMapper.addAnnotation(bb);
         }
     }
-    private AnnotationMapper annotationMapper;
-    private SpanMapper spanMapper;
-    private TraceMapper traceMapper;
 
     public void setAnnotationMapper(AnnotationMapper annotationMapper) {
         this.annotationMapper = annotationMapper;

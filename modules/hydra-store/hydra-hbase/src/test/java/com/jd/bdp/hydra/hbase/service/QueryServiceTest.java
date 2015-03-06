@@ -25,15 +25,16 @@ import com.jd.bdp.hydra.Span;
 import com.jd.bdp.hydra.hbase.service.impl.HbaseUtils;
 import com.jd.bdp.hydra.store.inter.InsertService;
 import com.jd.bdp.hydra.store.inter.QueryService;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.hadoop.hbase.HColumnDescriptor;
 import org.apache.hadoop.hbase.HTableDescriptor;
 import org.apache.hadoop.hbase.client.HBaseAdmin;
 import org.junit.Test;
 import org.springframework.test.AbstractDependencyInjectionSpringContextTests;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * User: biandi
@@ -42,13 +43,16 @@ import java.util.List;
  */
 public class QueryServiceTest extends AbstractDependencyInjectionSpringContextTests {
 
+    private InsertService insertService;
+    private HbaseUtils hbaseUtils;
+    private QueryService queryService;
+
     @Override
     protected String[] getConfigLocations() {
         this.setAutowireMode(AUTOWIRE_BY_NAME);
-        String[] location = {"classpath:hydra-hbase-test.xml"};
+        String[] location = { "classpath:hydra-hbase-test.xml" };
         return location;
     }
-
 
     @Test
     public void testAll() {
@@ -148,7 +152,6 @@ public class QueryServiceTest extends AbstractDependencyInjectionSpringContextTe
         endpointD2.setIp("127.0.0.1");
         endpointD2.setPort(1235);
 
-
         //这条应该在duration测试中被查出
         Span spanD2 = new Span();
         spanD2.setTraceId(1366178446536L);
@@ -169,7 +172,6 @@ public class QueryServiceTest extends AbstractDependencyInjectionSpringContextTe
         annListD2.add(annD2cr);
 
         spanD2.setAnnotations(annListD2);
-
 
         //应该在异常信息中被查出
         Span spanD3 = new Span();
@@ -207,10 +209,10 @@ public class QueryServiceTest extends AbstractDependencyInjectionSpringContextTe
         insertService.addAnnotation(spanD3);
 
         //以下是一个完整trace
-//        traceId = 1366178446534
-//        span1 : 1366178470630c, 1366178470630s
-//        span2 : 1366178496806c, 1366178496806s
-//        span3 : 1366178559295c, 1366178559295s
+        //        traceId = 1366178446534
+        //        span1 : 1366178470630c, 1366178470630s
+        //        span2 : 1366178496806c, 1366178496806s
+        //        span3 : 1366178559295c, 1366178559295s
         Endpoint endpoint1c = new Endpoint();
         endpoint1c.setIp("127.0.0.1");
         endpoint1c.setPort(1235);
@@ -234,7 +236,6 @@ public class QueryServiceTest extends AbstractDependencyInjectionSpringContextTe
         annList1c.add(annCr);
 
         span1c.setAnnotations(annList1c);
-
 
         Endpoint endpoint1s = new Endpoint();
         endpoint1s.setIp("127.0.0.1");
@@ -423,10 +424,6 @@ public class QueryServiceTest extends AbstractDependencyInjectionSpringContextTe
             hBaseAdmin.createTable(hTableDescriptor);
         }
     }
-
-    private InsertService insertService;
-    private HbaseUtils hbaseUtils;
-    private QueryService queryService;
 
     public void setInsertService(InsertService insertService) {
         this.insertService = insertService;

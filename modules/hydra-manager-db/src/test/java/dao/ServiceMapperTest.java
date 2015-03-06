@@ -16,11 +16,11 @@
 
 package dao;
 
-
 import com.jd.bdp.hydra.mysql.persistent.dao.AppMapper;
 import com.jd.bdp.hydra.mysql.persistent.dao.ServiceMapper;
 import com.jd.bdp.hydra.mysql.persistent.entity.AppPara;
 import com.jd.bdp.hydra.mysql.persistent.entity.ServicePara;
+
 import org.junit.Test;
 import org.springframework.test.AbstractDependencyInjectionSpringContextTests;
 
@@ -31,12 +31,14 @@ import org.springframework.test.AbstractDependencyInjectionSpringContextTests;
  */
 public class ServiceMapperTest extends AbstractDependencyInjectionSpringContextTests {
 
+    private ServiceMapper serviceMapper;
+    private AppMapper appMapper;
+
     @Override
     protected String[] getConfigLocations() {
-        String[] location = {"classpath:/hydra-manager-db.xml"};
+        String[] location = { "classpath:/hydra-manager-db.xml" };
         return location;
     }
-
 
     /**
      * # 测试数据库 #
@@ -45,25 +47,26 @@ public class ServiceMapperTest extends AbstractDependencyInjectionSpringContextT
      * 1:增加一个实体 Entity，查询确认添加成功
      * 2：修改这个实体Entity,查询这个实体，确认修改成功
      * 3：删除Entity，查询，确认为null
+     *
      * @throws Exception
      */
     @Test
-    public void testDataBaseOption()throws Exception{
+    public void testDataBaseOption() throws Exception {
         try {
             AppPara app = new AppPara();
             app.setName("myApp");
             appMapper.addApp(app);
 
             //define option-entity and query-entiry
-            ServicePara servicePara=new ServicePara();
+            ServicePara servicePara = new ServicePara();
             servicePara.setId("1");
             servicePara.setName("com.jd.car");
             servicePara.setAppId(app.getId());
-            ServicePara queryPara=null;
+            ServicePara queryPara = null;
             //add entity
             serviceMapper.addService(servicePara);
             //1:query entity
-            queryPara=serviceMapper.getOneService(servicePara.getId());
+            queryPara = serviceMapper.getOneService(servicePara.getId());
             assertNotNull(queryPara);
             assertEquals(servicePara, queryPara);
             //modify entity
@@ -71,17 +74,17 @@ public class ServiceMapperTest extends AbstractDependencyInjectionSpringContextT
 
             serviceMapper.updateService(servicePara);
             //2:query entity
-            queryPara=serviceMapper.getOneService(servicePara.getId());
+            queryPara = serviceMapper.getOneService(servicePara.getId());
             assertNotNull(queryPara);
             assertEquals(servicePara, queryPara);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             //delete entity
             try {
                 serviceMapper.deleteAll();
                 appMapper.deleteAll();
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
@@ -90,7 +93,7 @@ public class ServiceMapperTest extends AbstractDependencyInjectionSpringContextT
 
     //测试根据name和appId查找
     @Test
-    public void testFindByName(){
+    public void testFindByName() {
         try {
             AppPara app = new AppPara();
             app.setName("myApp");
@@ -124,17 +127,14 @@ public class ServiceMapperTest extends AbstractDependencyInjectionSpringContextT
             assertEquals(id1, s1.getId());
             assertEquals(id2, s2.getId());
             assertEquals(appId, s1.getAppId());
-        }catch (Exception e){
-           e.printStackTrace();
-        }finally {
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
             //最后删除所有的测试数据
             serviceMapper.deleteAll();
             appMapper.deleteAll();
         }
     }
-
-    private ServiceMapper serviceMapper;
-    private AppMapper appMapper;
 
     public void setServerMapper(ServiceMapper serviceMapper) {
         this.serviceMapper = serviceMapper;

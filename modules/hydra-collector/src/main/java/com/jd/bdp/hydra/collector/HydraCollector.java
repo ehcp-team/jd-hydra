@@ -1,6 +1,7 @@
 package com.jd.bdp.hydra.collector;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+
 /**
  * User: xiangkui
  * Date: 13-5-22
@@ -8,9 +9,8 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  */
 public class HydraCollector {
     public static void main(String[] strings) {
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[]{
-                "classpath*:dubbo-hydra-provider.xml"
-        });
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(
+                new String[] { "classpath*:dubbo-hydra-provider.xml" });
         context.start();
         while (true) {
             try {

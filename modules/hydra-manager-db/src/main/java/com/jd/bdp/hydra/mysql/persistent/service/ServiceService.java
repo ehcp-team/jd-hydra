@@ -27,5 +27,6 @@ import java.util.List;
  */
 public interface ServiceService {
     String getServiceId(String serviceName, String appName);
+
     List<ServicePara> get(Integer appId);
 }

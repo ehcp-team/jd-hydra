@@ -20,7 +20,7 @@
 <mapper namespace="com.jd.bdp.hydra.mysql.persistent.dao.ServiceMapper">
 
     <resultMap id="ServiceResultMap" type="ServiceEntity">
-        <result property="appId" column="APP_ID" />
+        <result property="appId" column="APP_ID"/>
     </resultMap>
 
     <!--新增加一个Service-->
@@ -37,11 +37,11 @@
     </update>
     <!--查询-->
     <select id="getServiceById" parameterType="int" resultMap="ServiceResultMap">
-        SELECT *  FROM TB_PARA_SERVICE WHERE ID = #{id}
+        SELECT * FROM TB_PARA_SERVICE WHERE ID = #{id}
     </select>
     <!-- 查询服务器列表 -->
     <select id="getServiceAll" resultType="ServiceEntity" resultMap="ServiceResultMap">
-            SELECT * FROM TB_PARA_SERVICE
+        SELECT * FROM TB_PARA_SERVICE
     </select>
 
     <!-- 根据名称查Service -->

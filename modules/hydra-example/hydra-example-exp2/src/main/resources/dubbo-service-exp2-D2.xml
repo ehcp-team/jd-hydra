@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xmlns="http://www.springframework.org/schema/beans"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 	http://code.alibabatech.com/schema/dubbo
@@ -11,7 +11,7 @@
     <bean id="serviceD2" class="com.jd.bdp.service.exp2.impl.ServiceD2">
     </bean>
     <!--服务暴露-开机-->
-    <dubbo:protocol name="${All.protocol}" port="${D2.port}" />
-    <dubbo:service interface="com.jd.bdp.service.exp2.inter.InterfaceD2" ref="serviceD2" >
+    <dubbo:protocol name="${All.protocol}" port="${D2.port}"/>
+    <dubbo:service interface="com.jd.bdp.service.exp2.inter.InterfaceD2" ref="serviceD2">
     </dubbo:service>
 </beans>
